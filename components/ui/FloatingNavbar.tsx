@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   motion,
   AnimatePresence,
@@ -16,81 +16,325 @@ export const FloatingNav = ({
   navItems: {
     name: string;
     link: string;
-    icon?: JSX.Element;
+    icon?: React.ReactNode;
   }[];
   className?: string;
 }) => {
-  const { scrollYProgress } = useScroll();
-
-  // set true for the initial state so that nav bar is visible in the hero section
+  const { scrollYProgress, scrollY } = useScroll();
   const [visible, setVisible] = useState(true);
+  const [activeSection, setActiveSection] = useState<string>("#home");
+  const [menuOpen, setMenuOpen] = useState(false);
 
+  // ─── Show / hide navbar on scroll ─────────────────────────────────────────
   useMotionValueEvent(scrollYProgress, "change", (current) => {
-    // Check if current is not undefined and is a number
-    if (typeof current === "number") {
-      let direction = current! - scrollYProgress.getPrevious()!;
+    if (typeof current !== "number") return;
+    const direction = current - (scrollYProgress.getPrevious() ?? 0);
 
-      if (scrollYProgress.get() < 0.05) {
-        // also set true for the initial state
-        setVisible(true);
-      } else {
-        if (direction < 0) {
-          setVisible(true);
-        } else {
-          setVisible(false);
-        }
-      }
+    if (scrollY.get() < 60) {
+      setVisible(true);
+    } else if (direction < 0) {
+      setVisible(true);
+    } else {
+      setVisible(false);
+      setMenuOpen(false);
     }
   });
 
+  // ─── Active section tracker (ScrollSpy) ──────────────────────────────────
+  useEffect(() => {
+    const sectionIds = [
+      "home",
+      ...navItems.map((item) => item.link.replace("#", "")),
+    ].filter(Boolean);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const hash = `#${entry.target.id}`;
+            setActiveSection(hash);
+            window.history.replaceState(null, "", hash);
+          }
+        });
+      },
+      { rootMargin: "-10% 0px -55% 0px", threshold: 0.05 }
+    );
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [navItems]);
+
+  // ─── Close mobile menu on Escape key press ──────────────────────────────
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMenuOpen(false);
+      }
+    };
+    if (menuOpen) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [menuOpen]);
+
+  // ─── Smooth-scroll navigation handler ────────────────────────────────────
+  const handleNavClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, link: string) => {
+      e.preventDefault();
+      setMenuOpen(false);
+      const targetId = link.replace("#", "");
+
+      if (targetId === "home" || link === "#" || link === "#home") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.history.replaceState(null, "", "#home");
+        setActiveSection("#home");
+      } else {
+        const el = document.getElementById(targetId);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          const targetY = rect.top + window.scrollY - 80;
+          window.scrollTo({ top: Math.max(0, targetY), behavior: "smooth" });
+          window.history.replaceState(null, "", link);
+          setActiveSection(link);
+        }
+      }
+    },
+    []
+  );
+
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        initial={{
-          opacity: 1,
-          y: -100,
-        }}
-        animate={{
-          y: visible ? 0 : -100,
-          opacity: visible ? 1 : 0,
-        }}
-        transition={{
-          duration: 0.2,
-        }}
+    <>
+      {/* ── Mobile Backdrop Overlay (dismisses on tap outside nav links) ── */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            key="mobile-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[4990] bg-black/50 backdrop-blur-[2px] sm:hidden"
+            onClick={() => setMenuOpen(false)}
+            aria-hidden="true"
+          />
+        )}
+      </AnimatePresence>
+
+      {/* ── Desktop pill navbar (sm and above) ─────────────────────────── */}
+      <motion.nav
+        key="desktop-nav"
+        aria-label="Main navigation"
+        initial={{ opacity: 0, y: -80, x: "-50%" }}
+        animate={{ y: visible ? 0 : -120, opacity: visible ? 1 : 0, x: "-50%" }}
+        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         className={cn(
-          // change rounded-full to rounded-lg
-          // remove dark:border-white/[0.2] dark:bg-black bg-white border-transparent
-          // change  pr-2 pl-8 py-2 to px-10 py-5
-          "flex max-w-fit md:min-w-[70vw] lg:min-w-fit fixed z-[5000] top-10 inset-x-0 mx-auto px-10 py-5 rounded-lg border border-black/.1 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] items-center justify-center space-x-4",
+          "fixed z-[5000] top-5 left-1/2",
+          "hidden sm:flex items-center gap-2.5",
+          "px-4 sm:px-5 py-2 rounded-full",
+          "bg-black-200/80 backdrop-blur-xl border border-white/10",
+          "shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]",
           className
         )}
-        style={{
-          backdropFilter: "blur(16px) saturate(180%)",
-          backgroundColor: "rgba(17, 25, 40, 0.75)",
-          borderRadius: "12px",
-          border: "1px solid rgba(255, 255, 255, 0.125)",
-        }}
+        style={{ backdropFilter: "blur(16px) saturate(180%)" }}
       >
-        {navItems.map((navItem: any, idx: number) => (
-          <Link
-            key={`link=${idx}`}
-            href={navItem.link}
-            className={cn(
-              "relative dark:text-neutral-50 items-center  flex space-x-1 text-neutral-600 dark:hover:text-neutral-300 hover:text-neutral-500"
-            )}
-          >
-            <span className="block sm:hidden">{navItem.icon}</span>
-            {/* add !cursor-pointer */}
-            {/* remove hidden sm:block for the mobile responsive */}
-            <span className=" text-sm !cursor-pointer">{navItem.name}</span>
-          </Link>
-        ))}
-        {/* remove this login btn */}
-        {/* <button className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full">
-          <span>Login</span>
-          <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent  h-px" />
-        </button> */}
+        {/* Brand Primary Logo */}
+        <Link
+          href="#home"
+          onClick={(e) => handleNavClick(e, "#home")}
+          aria-label="ZAID.DEV - Back to top"
+          className="relative flex items-center pr-2 pl-1 py-0.5 group/logo rounded-full transition-transform active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple/60 flex-shrink-0"
+        >
+          <img
+            src="/logo-primary.svg"
+            alt="ZAID.DEV"
+            className="h-6 sm:h-7 w-auto object-contain transition-opacity duration-200 group-hover/logo:opacity-90"
+          />
+        </Link>
+
+        {/* Subtle vertical divider */}
+        <div className="h-5 w-[1px] bg-white/15 mx-0.5 flex-shrink-0" aria-hidden="true" />
+
+        {/* Navigation Items */}
+        {navItems.map((navItem, idx) => {
+          const isActive = activeSection === navItem.link;
+          return (
+            <Link
+              key={`nav-${idx}`}
+              href={navItem.link}
+              onClick={(e) => handleNavClick(e, navItem.link)}
+              aria-label={navItem.name}
+              className={cn(
+                "relative px-4 py-2 rounded-full",
+                "text-sm font-medium transition-colors duration-200",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple/60",
+                isActive
+                  ? "text-white"
+                  : "text-neutral-400 hover:text-white hover:bg-white/5"
+              )}
+            >
+              {isActive && (
+                <motion.span
+                  layoutId="activeNavPill"
+                  className="absolute inset-0 rounded-full bg-white/10 border border-white/15 shadow-sm"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+              <span className="relative z-10 whitespace-nowrap">{navItem.name}</span>
+            </Link>
+          );
+        })}
+      </motion.nav>
+
+      {/* ── Mobile top-left brand logo (below sm) ─────────────────────────── */}
+      <motion.div
+        key="mobile-logo"
+        initial={{ opacity: 0, y: -80 }}
+        animate={{ y: visible ? 0 : -120, opacity: visible ? 1 : 0 }}
+        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        className="fixed z-[5000] top-4 left-4 sm:hidden"
+      >
+        <Link
+          href="#home"
+          onClick={(e) => handleNavClick(e, "#home")}
+          aria-label="ZAID.DEV - Back to top"
+          className={cn(
+            "flex items-center px-3 py-2 rounded-full",
+            "bg-black-200/90 backdrop-blur-xl border border-white/10",
+            "shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]",
+            "active:scale-95 transition-transform duration-150",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple/60"
+          )}
+          style={{ backdropFilter: "blur(16px) saturate(180%)" }}
+        >
+          <img
+            src="/logo-primary.svg"
+            alt="ZAID.DEV"
+            className="h-5 w-auto object-contain"
+          />
+        </Link>
       </motion.div>
-    </AnimatePresence>
+
+      {/* ── Mobile hamburger (below sm) ─────────────────────────────────── */}
+      <motion.div
+        key="mobile-nav"
+        initial={{ opacity: 0, y: -80 }}
+        animate={{ y: visible ? 0 : -120, opacity: visible ? 1 : 0 }}
+        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        className="fixed z-[5000] top-4 right-4 sm:hidden"
+      >
+        {/* Hamburger trigger pill */}
+        <button
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((prev) => !prev)}
+          className={cn(
+            "flex items-center gap-2.5 px-3.5 py-2 rounded-full",
+            "bg-black-200/90 backdrop-blur-xl border border-white/10",
+            "shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]",
+            "text-white text-sm font-medium touch-manipulation",
+            "active:scale-95 transition-transform duration-150",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple/60"
+          )}
+          style={{ backdropFilter: "blur(16px) saturate(180%)" }}
+        >
+          {/* Animated hamburger / X icon */}
+          <span className="relative w-4 h-3.5 flex flex-col justify-between items-center">
+            <motion.span
+              animate={menuOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="block h-0.5 w-full bg-white rounded-full origin-center"
+            />
+            <motion.span
+              animate={menuOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
+              transition={{ duration: 0.15 }}
+              className="block h-0.5 w-full bg-white rounded-full"
+            />
+            <motion.span
+              animate={menuOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="block h-0.5 w-full bg-white rounded-full origin-center"
+            />
+          </span>
+          {/* Active section label */}
+          <span className="text-neutral-300 text-xs font-medium tracking-wide">
+            {navItems.find((i) => i.link === activeSection)?.name ?? "Menu"}
+          </span>
+        </button>
+
+        {/* Dropdown menu */}
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              key="mobile-dropdown"
+              initial={{ opacity: 0, scale: 0.88, y: -10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.88, y: -10 }}
+              transition={{
+                type: "spring",
+                stiffness: 400,
+                damping: 28,
+                mass: 0.8,
+              }}
+              className={cn(
+                "absolute top-[calc(100%+0.6rem)] right-0 origin-top-right z-[5000]",
+                "w-52 max-w-[calc(100vw-2rem)] py-2 rounded-2xl",
+                "bg-black-200/95 backdrop-blur-2xl border border-white/15",
+                "shadow-[0_12px_40px_0_rgba(0,0,0,0.7)]",
+                "flex flex-col gap-1 overflow-hidden"
+              )}
+              style={{ backdropFilter: "blur(24px) saturate(200%)" }}
+            >
+              {/* Dropdown Header Brand */}
+              <div className="px-3.5 py-2 mb-1 border-b border-white/10 flex items-center justify-between">
+                <img
+                  src="/logo-primary.svg"
+                  alt="ZAID.DEV"
+                  className="h-5 w-auto object-contain"
+                />
+              </div>
+
+              {navItems.map((navItem, idx) => {
+                const isActive = activeSection === navItem.link;
+                return (
+                  <Link
+                    key={`mob-nav-${idx}`}
+                    href={navItem.link}
+                    onClick={(e) => handleNavClick(e, navItem.link)}
+                    className={cn(
+                      "relative mx-1.5 px-3.5 py-3 rounded-xl",
+                      "text-sm font-medium transition-colors duration-200",
+                      "flex items-center gap-3 touch-manipulation min-h-[44px]",
+                      "active:scale-[0.98]",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple/60",
+                      isActive
+                        ? "text-white font-semibold"
+                        : "text-neutral-300 hover:text-white hover:bg-white/5"
+                    )}
+                  >
+                    {isActive && (
+                      <motion.span
+                        layoutId="activeMobilePill"
+                        className="absolute inset-0 rounded-xl bg-purple/20 border border-purple/40 shadow-[0_0_15px_rgba(203,172,249,0.25)]"
+                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      />
+                    )}
+                    {navItem.icon && (
+                      <span className="relative z-10 text-base">{navItem.icon}</span>
+                    )}
+                    <span className="relative z-10">{navItem.name}</span>
+                  </Link>
+                );
+              })}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </>
   );
 };

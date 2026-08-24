@@ -1,14 +1,24 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
 
 import "./globals.css";
 import { ThemeProvider } from "./provider";
 
-const inter = Inter({ subsets: ["latin"] });
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  weight: ["400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
-  title: "Adrian's Portfolio",
-  description: "Modern & Minimal JS Mastery Portfolio",
+  title: "Jhon's Portfolio",
+  description: "My personal portfolio website",
+  icons: {
+    icon: "/logo-secondary.svg",
+    shortcut: "/logo-secondary.svg",
+    apple: "/logo-secondary.svg",
+  },
 };
 
 export default function RootLayout({
@@ -17,11 +27,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`dark ${GeistSans.variable} ${spaceGrotesk.variable}`}
+      style={{ colorScheme: "dark" }}
+      suppressHydrationWarning
+    >
       <head>
-        <link rel="icon" href="/jsm-logo.png" sizes="any" />
+        <link rel="icon" href="/logo-secondary.svg" type="image/svg+xml" sizes="any" />
       </head>
-      <body className={inter.className}>
+      <body className="font-sans bg-black-100 text-white antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

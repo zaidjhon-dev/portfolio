@@ -1,7 +1,8 @@
+import { FaGithub, FaFacebook, FaLinkedin } from "react-icons/fa";
 export const navItems = [
   { name: "About", link: "#about" },
   { name: "Projects", link: "#projects" },
-  { name: "Testimonials", link: "#testimonials" },
+  { name: "Work", link: "#work" },
   { name: "Contact", link: "#contact" },
 ];
 
@@ -13,7 +14,7 @@ export const gridItems = [
     className: "lg:col-span-3 md:col-span-6 md:row-span-4 lg:min-h-[60vh]",
     imgClassName: "w-full h-full",
     titleClassName: "justify-end",
-    img: "/b1.svg",
+    img: "/my-image.jpg",
     spareImg: "",
   },
   {
@@ -38,8 +39,8 @@ export const gridItems = [
   },
   {
     id: 4,
-    title: "Tech enthusiast with a passion for development.",
-    description: "",
+    title: "Bachelor of Science in Information Technology",
+    description: "Education & Background",
     className: "lg:col-span-2 md:col-span-3 md:row-span-1",
     imgClassName: "",
     titleClassName: "justify-start",
@@ -59,13 +60,49 @@ export const gridItems = [
   },
   {
     id: 6,
-    title: "Do you want to start a project together?",
-    description: "",
+    title: "Certifications & Professional Credentials",
+    description: "Verified Achievements",
     className: "lg:col-span-2 md:col-span-3 md:row-span-1",
     imgClassName: "",
-    titleClassName: "justify-center md:max-w-full max-w-60 text-center",
+    titleClassName: "justify-start",
     img: "",
     spareImg: "",
+  },
+];
+
+export const certificates = [
+  {
+    id: 1,
+    title: "Meta Front-End Developer",
+    issuer: "Meta",
+    date: "2024",
+    skills: ["React", "JavaScript", "UI/UX", "CSS3"],
+    description:
+      "Professional specialization covering modern responsive web engineering, advanced React component architecture, state management, and web accessibility standards.",
+    credentialUrl: "https://coursera.org",
+    image: "/p1.svg", // Replace with your certificate image path (e.g. /cert1.png)
+  },
+  {
+    id: 2,
+    title: "Full-Stack Web Development",
+    issuer: "freeCodeCamp",
+    date: "2023",
+    skills: ["Node.js", "Express", "MongoDB", "APIs"],
+    description:
+      "Intensive 300+ hour certification demonstrating proficiency in full-stack architecture, RESTful API design, database schemas, and microservices.",
+    credentialUrl: "https://freecodecamp.org",
+    image: "/p2.svg", // Replace with your certificate image path (e.g. /cert2.png)
+  },
+  {
+    id: 3,
+    title: "AWS Cloud Foundations",
+    issuer: "Amazon Web Services",
+    date: "2024",
+    skills: ["AWS Cloud", "Serverless", "S3", "Security"],
+    description:
+      "Validates foundational knowledge of cloud infrastructure, serverless application deployment, and scalable cloud compute principles.",
+    credentialUrl: "https://aws.amazon.com",
+    image: "/p3.svg", // Replace with your certificate image path (e.g. /cert3.png)
   },
 ];
 
@@ -204,14 +241,20 @@ export const workExperience = [
 export const socialMedia = [
   {
     id: 1,
-    img: "/git.svg",
+    Icon: FaGithub,
+    link: "https://github.com/zaidjhon-dev",
+    label: "Github Profile",
   },
   {
     id: 2,
-    img: "/twit.svg",
+    Icon: FaFacebook,
+    link: "https://www.facebook.com/johnrenz.diaz.33/",
+    label: "Facebook Profile",
   },
   {
     id: 3,
-    img: "/link.svg",
+    Icon: FaLinkedin,
+    link: "http://linkedin.com/in/jhon-diaz-707b5640a/",
+    label: "Linkedin Profile",
   },
 ];

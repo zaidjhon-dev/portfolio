@@ -4,13 +4,13 @@ import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
 
 export const InfiniteMovingCards = ({
-  items,
+  items = [],
   direction = "left",
   speed = "fast",
   pauseOnHover = true,
   className,
 }: {
-  items: {
+  items?: {
     quote: string;
     name: string;
     title: string;
@@ -22,21 +22,24 @@ export const InfiniteMovingCards = ({
 }) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const scrollerRef = React.useRef<HTMLUListElement>(null);
+  const [start, setStart] = useState(false);
 
   useEffect(() => {
     addAnimation();
   }, []);
-  const [start, setStart] = useState(false);
+
   function addAnimation() {
     if (containerRef.current && scrollerRef.current) {
       const scrollerContent = Array.from(scrollerRef.current.children);
 
-      scrollerContent.forEach((item) => {
-        const duplicatedItem = item.cloneNode(true);
-        if (scrollerRef.current) {
-          scrollerRef.current.appendChild(duplicatedItem);
-        }
-      });
+      if (scrollerContent && scrollerContent.length > 0) {
+        scrollerContent.forEach((item) => {
+          const duplicatedItem = item.cloneNode(true);
+          if (scrollerRef.current) {
+            scrollerRef.current.appendChild(duplicatedItem);
+          }
+        });
+      }
 
       getDirection();
       getSpeed();
@@ -87,7 +90,7 @@ export const InfiniteMovingCards = ({
           pauseOnHover && "hover:[animation-play-state:paused]"
         )}
       >
-        {items.map((item, idx) => (
+        {items?.map((item, idx) => (
           <li
             //   change md:w-[450px] to md:w-[60vw] , px-8 py-6 to p-16, border-slate-700 to border-slate-800
             className="w-[90vw] max-w-full relative rounded-2xl border border-b-0
@@ -116,7 +119,14 @@ export const InfiniteMovingCards = ({
               <div className="relative z-20 mt-6 flex flex-row items-center">
                 {/* add this div for the profile img */}
                 <div className="me-3">
-                  <img src="/profile.svg" alt="profile" />
+                  <img
+                    src="/profile.svg"
+                    alt="avatar profile"
+                    loading="lazy"
+                    decoding="async"
+                    width={40}
+                    height={40}
+                  />
                 </div>
                 <span className="flex flex-col gap-1">
                   {/* change text color, font-normal to font-bold, text-xl */}

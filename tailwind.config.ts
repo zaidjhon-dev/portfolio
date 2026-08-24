@@ -26,6 +26,11 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ["var(--font-geist-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+        heading: ["var(--font-space-grotesk)", "ui-sans-serif", "system-ui", "sans-serif"],
+        space: ["var(--font-space-grotesk)", "ui-sans-serif", "system-ui", "sans-serif"],
+      },
       colors: {
         black: {
           DEFAULT: "#000",

@@ -1,75 +1,110 @@
-import { FaLocationArrow } from "react-icons/fa6";
-
 import MagicButton from "./MagicButton";
 import { Spotlight } from "./ui/Spotlight";
 import { TextGenerateEffect } from "./ui/TextGenerateEffect";
+import CardSpotlight from "./ui/CardSpotlight";
 
 const Hero = () => {
   return (
-    <div className="pb-20 pt-36">
+    <section
+      id="home"
+      className="relative w-full min-h-[90vh] lg:min-h-screen flex flex-col justify-center items-center scroll-mt-0 overflow-hidden"
+    >
       {/**
-       *  UI: Spotlights
-       *  Link: https://ui.aceternity.com/components/spotlight
+       *  UI: Full-Bleed Background Layer (Grid Pattern + Animated Dual Spotlight)
+       *  Spans 100% edge-to-edge of the viewport
        */}
-      <div>
-        <Spotlight
-          className="-top-40 -left-10 md:-left-32 md:-top-20 h-screen"
-          fill="white"
-        />
-        <Spotlight
-          className="h-[80vh] w-[50vw] top-10 left-full"
-          fill="purple"
-        />
-        <Spotlight className="left-80 top-28 h-[80vh] w-[50vw]" fill="blue" />
+      <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0 overflow-hidden">
+        {/* Full-width Grid background with radial spotlight mask & smooth bottom fade */}
+        <div className="absolute inset-0 w-full h-full bg-black-100 bg-grid-white/[0.03] flex items-center justify-center">
+          {/* Radial gradient mask for center depth */}
+          <div className="absolute inset-0 bg-black-100 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
+          {/* Bottom fade into the next section */}
+          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black-100 via-black-100/70 to-transparent" />
+        </div>
+
+        {/* New animated dual-beam ambient spotlight */}
+        <Spotlight />
       </div>
 
       {/**
-       *  UI: grid
-       *  change bg color to bg-black-100 and reduce grid color from
-       *  0.2 to 0.03
+       *  Hero Content Container with Responsive Portrait Space
+       *  Centered within max-w-7xl with standard responsive padding
        */}
-      <div
-        className="h-screen w-full dark:bg-black-100 bg-white dark:bg-grid-white/[0.03] bg-grid-black-100/[0.2]
-       absolute top-0 left-0 flex items-center justify-center"
-      >
-        {/* Radial gradient for the container to give a faded look */}
-        <div
-          // chnage the bg to bg-black-100, so it matches the bg color and will blend in
-          className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black-100
-         bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"
-        />
-      </div>
-
-      <div className="flex justify-center relative my-20 z-10">
-        <div className="max-w-[89vw] md:max-w-2xl lg:max-w-[60vw] flex flex-col items-center justify-center">
-          <p className="uppercase tracking-widest text-xs text-center text-blue-100 max-w-80">
-            Dynamic Web Magic with Next.js
-          </p>
+      <div className="relative z-10 w-full max-w-7xl sm:px-10 px-5 pt-24 sm:pt-28 md:pt-32 pb-16 flex flex-col-reverse lg:flex-row items-center justify-between gap-10 lg:gap-14 my-auto">
+        {/* Left Column: Intro text and Call to Action */}
+        <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left max-w-2xl lg:max-w-none">
 
           {/**
-           *  Link: https://ui.aceternity.com/components/text-generate-effect
-           *
-           *  change md:text-6xl, add more responsive code
+           *  Headline with Text Generate Effect
            */}
           <TextGenerateEffect
-            words="Transforming Concepts into Seamless User Experiences"
-            className="text-center text-[40px] md:text-5xl lg:text-6xl"
+            words="Learning, designing, and coding for the modern web."
+            className="font-heading text-[32px] sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold leading-tight tracking-tight"
           />
 
-          <p className="text-center md:tracking-wider mb-4 text-sm md:text-lg lg:text-2xl">
-            Hi! I&apos;m Adrian, a Next.js Developer based in Croatia.
+          {/* Subtitle / Bio */}
+          <p className="text-white-200 text-sm sm:text-base md:text-lg lg:text-xl font-normal leading-relaxed my-4 max-w-xl">
+            Hi! I&apos;m <span className="text-purple font-semibold">Jhon</span>, an aspiring web developer based in the Philippines passionate about crafting interactive, modern web experiences.
           </p>
 
-          <a href="#about">
-            <MagicButton
-              title="Show my work"
-              icon={<FaLocationArrow />}
-              position="right"
-            />
-          </a>
+          {/* Call to Action Button */}
+          <div className="mt-4 sm:mt-6">
+            <a
+              href="#about"
+              onClick={(e) => {
+                e.preventDefault();
+                const el = document.getElementById("about");
+                if (el) {
+                  el.scrollIntoView({ behavior: "smooth" });
+                  window.history.replaceState(null, "", "#about");
+                }
+              }}
+            >
+              <MagicButton
+                title="Know more about me"
+                position="right"
+              />
+            </a>
+          </div>
+        </div>
+
+        {/* ─── Right Column: Portrait Showcase with CardSpotlight ─────────────── */}
+        <div className="flex-shrink-0 relative flex justify-center items-center">
+          {/* Ambient glow – sits completely outside the card */}
+          <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-purple/30 via-indigo-500/20 to-blue-500/30 opacity-50 blur-3xl pointer-events-none transition duration-500 hover:opacity-75" />
+
+          {/* Outer wrapper: gradient border ring */}
+          <div className="relative p-[2px] rounded-3xl bg-gradient-to-b from-white/20 via-purple/25 to-blue-500/15 shadow-2xl">
+            <CardSpotlight
+              radius={320}
+              color="rgba(140, 90, 255, 0.30)"
+              className="
+                w-56 h-64
+                sm:w-64 sm:h-72
+                md:w-72 md:h-80
+                lg:w-80 lg:h-[390px]
+                xl:w-[450px] xl:h-[500px]
+                rounded-[22px]
+                bg-black-200/90
+                border border-white/10
+              "
+            >
+              {/* Portrait image – fills the CardSpotlight card */}
+              <img
+                src="/profile.png"
+                alt="Jhon – Web Developer Portrait"
+                fetchPriority="high"
+                decoding="async"
+                className="absolute inset-0 w-full h-full object-cover scale-[150%] object-top"
+              />
+
+              {/* Bottom gradient fade overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black-100/70 via-transparent to-transparent pointer-events-none" />
+            </CardSpotlight>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
