@@ -26,6 +26,10 @@ const config = {
       },
     },
     extend: {
+      screens: {
+        // Custom nav breakpoint: pill navbar shows at 960px+, hamburger below
+        nav: "960px",
+      },
       fontFamily: {
         sans: ["var(--font-geist-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
         heading: ["var(--font-space-grotesk)", "ui-sans-serif", "system-ui", "sans-serif"],

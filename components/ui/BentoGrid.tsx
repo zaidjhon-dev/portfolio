@@ -57,8 +57,8 @@ export const BentoGridItem = ({
   titleClassName?: string;
   spareImg?: string;
 }) => {
-  const leftLists = ["ReactJS", "Express", "Typescript"];
-  const rightLists = ["VueJS", "NuxtJS", "GraphQL"];
+  const leftLists = ["Tailwind CSS", "Typescript", "React.js"];
+  const rightLists = ["Laravel", "PHP","Html/Css"];
 
   // Certificate carousel & modal states for id === 6
   const [activeCert, setActiveCert] = useState<(typeof certificates)[number] | null>(null);
@@ -228,18 +228,20 @@ export const BentoGridItem = ({
 
       {/* ─── Bento Grid Item Card ────────────────────────────────────────── */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
+        viewport={{ once: true, amount: 0.08 }}
+        transition={{ duration: 0.55, ease: [0.25, 1, 0.5, 1] }}
         className={cn(
-          "row-span-1 relative overflow-hidden rounded-3xl border border-white/[0.1] group/bento hover:border-white/[0.2] hover:shadow-xl transition-colors transition-shadow duration-300 shadow-input dark:shadow-none justify-between flex flex-col space-y-4 transform-gpu",
+          "row-span-1 relative overflow-hidden rounded-3xl border border-white/[0.1] group/bento hover:border-white/[0.2] hover:shadow-xl transition-all duration-300 shadow-input dark:shadow-none justify-between flex flex-col space-y-4 transform-gpu",
+          id === 2 && "min-h-[240px] sm:min-h-[280px]",
           className
         )}
         style={{
           background: "rgb(4,7,29)",
           backgroundColor:
             "linear-gradient(90deg, rgba(4,7,29,1) 0%, rgba(12,14,35,1) 100%)",
+          willChange: "opacity, transform",
         }}
       >
         {/* Background Images and Overlays */}
@@ -291,7 +293,7 @@ export const BentoGridItem = ({
               id === 1 ? "justify-end" : "justify-between"
             )}
           >
-            <div className={cn(id === 1 && "mt-auto")}>
+            <div className={cn("relative z-20", id === 1 && "mt-auto")}>
               {/* Subtitle / Category label */}
               <div className="font-sans font-extralight md:max-w-48 md:text-xs lg:text-base text-sm text-[#C1C2D3] z-10">
                 {description}
@@ -300,7 +302,7 @@ export const BentoGridItem = ({
               {/* Main Title */}
               <div
                 className={`font-heading text-lg lg:text-3xl max-w-96 font-bold z-10 tracking-tight leading-snug ${
-                  id === 1 ? "text-white drop-shadow-md" : ""
+                  id === 1 || id === 2 ? "text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]" : ""
                 }`}
               >
                 {title}
@@ -310,32 +312,90 @@ export const BentoGridItem = ({
             {/* id === 2: Interactive 3D Globe */}
             {id === 2 && <GridGlobe />}
 
-            {/* id === 3: Tech stack columns */}
+            {/* id === 3: Tech stack columns — animated, relative, always visible */}
             {id === 3 && (
-              <div className="flex gap-1 lg:gap-5 w-fit absolute -right-3 lg:-right-2">
-                <div className="flex flex-col gap-3 md:gap-3 lg:gap-8">
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+                variants={{
+                  hidden: {},
+                  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
+                }}
+                className="flex gap-2 md:gap-3 lg:gap-4 w-full justify-center mt-3"
+              >
+                {/* Left column */}
+                <div className="flex flex-col gap-2 md:gap-2.5 lg:gap-3 flex-1">
                   {leftLists.map((item, i) => (
-                    <span
+                    <motion.div
                       key={i}
-                      className="lg:py-4 lg:px-3 py-2 px-3 text-xs lg:text-base opacity-50 lg:opacity-100 rounded-lg text-center bg-[#10132E]"
+                      variants={{
+                        hidden: { opacity: 0, x: -18 },
+                        visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: [0.25, 1, 0.5, 1] } },
+                      }}
                     >
-                      {item}
-                    </span>
+                      <motion.span
+                        animate={{ y: [0, -6, 0] }}
+                        transition={{
+                          duration: 3.5 + i * 0.6,
+                          repeat: Infinity,
+                          repeatType: "mirror",
+                          ease: [0.45, 0, 0.55, 1],
+                          delay: i * 0.5,
+                        }}
+                        style={{ willChange: "transform" }}
+                        className="block py-2 px-2.5 md:py-2.5 md:px-3 lg:py-3 lg:px-4 text-[10px] sm:text-xs lg:text-sm font-medium rounded-lg text-center bg-[#10132E] border border-white/[0.07] text-white/90 whitespace-nowrap shadow-sm cursor-default select-none"
+                      >
+                        {item}
+                      </motion.span>
+                    </motion.div>
                   ))}
-                  <span className="lg:py-4 lg:px-3 py-4 px-3 rounded-lg text-center bg-[#10132E]"></span>
+                  {/* Spacer pill */}
+                  <motion.div
+                    variants={{
+                      hidden: { opacity: 0, x: -16 },
+                      visible: { opacity: 1, x: 0, transition: { duration: 0.45, ease: [0.25, 1, 0.5, 1] } },
+                    }}
+                    className="py-2 px-2.5 md:py-2.5 md:px-3 lg:py-3 lg:px-4 rounded-lg bg-[#10132E] border border-white/[0.06] opacity-25"
+                  />
                 </div>
-                <div className="flex flex-col gap-3 md:gap-3 lg:gap-8">
-                  <span className="lg:py-4 lg:px-3 py-4 px-3 rounded-lg text-center bg-[#10132E]"></span>
+
+                {/* Right column — offset with a leading empty pill */}
+                <div className="flex flex-col gap-2 md:gap-2.5 lg:gap-3 flex-1">
+                  {/* Leading spacer */}
+                  <motion.div
+                    variants={{
+                      hidden: { opacity: 0, x: 16 },
+                      visible: { opacity: 1, x: 0, transition: { duration: 0.45, ease: [0.25, 1, 0.5, 1] } },
+                    }}
+                    className="py-2 px-2.5 md:py-2.5 md:px-3 lg:py-3 lg:px-4 rounded-lg bg-[#10132E] border border-white/[0.06] opacity-25"
+                  />
                   {rightLists.map((item, i) => (
-                    <span
+                    <motion.div
                       key={i}
-                      className="lg:py-4 lg:px-3 py-2 px-3 text-xs lg:text-base opacity-50 lg:opacity-100 rounded-lg text-center bg-[#10132E]"
+                      variants={{
+                        hidden: { opacity: 0, x: 18 },
+                        visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: [0.25, 1, 0.5, 1] } },
+                      }}
                     >
-                      {item}
-                    </span>
+                      <motion.span
+                        animate={{ y: [0, -6, 0] }}
+                        transition={{
+                          duration: 4.0 + i * 0.6,
+                          repeat: Infinity,
+                          repeatType: "mirror",
+                          ease: [0.45, 0, 0.55, 1],
+                          delay: 0.8 + i * 0.5,
+                        }}
+                        style={{ willChange: "transform" }}
+                        className="block py-2 px-2.5 md:py-2.5 md:px-3 lg:py-3 lg:px-4 text-[10px] sm:text-xs lg:text-sm font-medium rounded-lg text-center bg-[#10132E] border border-white/[0.07] text-white/90 whitespace-nowrap shadow-sm cursor-default select-none"
+                      >
+                        {item}
+                      </motion.span>
+                    </motion.div>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             )}
 
             {/* id === 4: Education Card Details (Timeline / Institution pill) */}

@@ -21,73 +21,19 @@ const projectDetails: Record<
   1: {
     subtitle: "Interactive 3D Solar System Experience",
     overview:
-      "A comprehensive interactive 3D simulation of our solar system developed with Three.js and React Three Fiber. Users can explore planetary orbits in real time, inspect planetary details with dynamic camera viewpoints, and experience realistic planetary scale and orbital mathematics.",
+      "DermaSure PH functions as a secure discovery portal that will verify skincare products against the FDA Philippines database, protecting consumers from counterfeit items and harmful ingredients. The platform avoids direct sales, instead linking users directly to official distributors on Shopee or Lazada to ensure authenticity.",
     features: [
-      "Real-time 3D orbital physics and planetary motion calculations",
-      "Interactive 3D camera controls with orbit and zoom capabilities",
-      "Dynamic lighting shaders, planetary textures, and celestial atmospheres",
-      "Optimized 60+ FPS web graphics with smooth Framer Motion interfaces",
+      "Every product listed is carefully cross-checked against the FDA Philippines veirification portal to ensure authenticity and safety.",
+      "An interactive and optimized website built for solely for beauty enthusiasts and skincare lovers",
+      "Smooth and efficient animations with framer motion and tailwind css",
+      "Implemented proper security protocols and authentication and access control using supabase",
     ],
     techStack: [
-      { name: "React", icon: "/re.svg" },
-      { name: "Three.js", icon: "/three.svg" },
+      { name: "Next.js", icon: "/nextjs.svg" },
+      { name: "Supabase", icon: "/supabase.svg" },
       { name: "TypeScript", icon: "/ts.svg" },
       { name: "Tailwind CSS", icon: "/tail.svg" },
       { name: "Framer Motion", icon: "/fm.svg" },
-    ],
-  },
-  2: {
-    subtitle: "Real-time Video Conferencing & Team Collaboration",
-    overview:
-      "A feature-packed enterprise video conferencing application modeled after Zoom. Built with Next.js 14 App Router, Stream Video SDK, and Clerk authentication, it enables seamless instant video calls, scheduled meetings, screen sharing, and meeting recording management.",
-    features: [
-      "Instant 1-on-1 and multi-participant video and audio calling",
-      "Screen sharing, active speaker detection, and participant controls",
-      "Meeting scheduling with shareable links and personal meeting rooms",
-      "Secure authentication and user management powered by Clerk",
-    ],
-    techStack: [
-      { name: "Next.js 14", icon: "/next.svg" },
-      { name: "Stream SDK", icon: "/stream.svg" },
-      { name: "TypeScript", icon: "/ts.svg" },
-      { name: "Tailwind CSS", icon: "/tail.svg" },
-      { name: "Clerk Auth", icon: "/c.svg" },
-    ],
-  },
-  3: {
-    subtitle: "AI-Powered SaaS Graphic Editor & Image Transformer",
-    overview:
-      "A full-stack AI Image manipulation SaaS platform inspired by Canva. Empowered by Cloudinary AI APIs, users can perform generative fill, object removal, background recoloring, and automated image enhancements with a secure credit-based payment workflow.",
-    features: [
-      "AI generative fill, object removal, and background replacement",
-      "Credit-based subscription and transaction system with Stripe checkout",
-      "Community feed for browsing, searching, and downloading transformed designs",
-      "Serverless architecture with image processing pipelines",
-    ],
-    techStack: [
-      { name: "React", icon: "/re.svg" },
-      { name: "Cloudinary AI", icon: "/c.svg" },
-      { name: "TypeScript", icon: "/ts.svg" },
-      { name: "Tailwind CSS", icon: "/tail.svg" },
-      { name: "Three.js", icon: "/three.svg" },
-    ],
-  },
-  4: {
-    subtitle: "Apple iPhone 15 Pro 3D Product Showcase",
-    overview:
-      "A high-fidelity recreation of the Apple iPhone 15 Pro official product launch website. Integrates fluid GSAP ScrollTrigger animations with interactive 3D Three.js models, dynamic colorway material shaders, and custom titanium surface reflections.",
-    features: [
-      "Scroll-driven timeline animations built with GSAP and ScrollTrigger",
-      "Interactive 3D iPhone model with realistic material reflections and lighting",
-      "Dynamic colorway selector updating 3D textures in real time",
-      "High-performance responsive design matching Apple's aesthetic",
-    ],
-    techStack: [
-      { name: "Next.js 14", icon: "/next.svg" },
-      { name: "GSAP", icon: "/gsap.svg" },
-      { name: "Three.js", icon: "/three.svg" },
-      { name: "TypeScript", icon: "/ts.svg" },
-      { name: "Tailwind CSS", icon: "/tail.svg" },
     ],
   },
 };

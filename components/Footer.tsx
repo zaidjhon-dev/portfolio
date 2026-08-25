@@ -1,3 +1,7 @@
+"use client";
+
+import React from "react";
+import { motion } from "framer-motion";
 import { FaLocationArrow } from "react-icons/fa6";
 
 import { socialMedia } from "@/data";
@@ -17,7 +21,13 @@ const Footer = () => {
         />
       </div>
 
-      <div className="flex flex-col items-center">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
+        className="flex flex-col items-center"
+      >
         <h1 className="heading lg:max-w-[45vw]">
           Ready to take <span className="text-purple">your</span> digital
           presence to the next level?
@@ -32,35 +42,51 @@ const Footer = () => {
             position="right"
           />
         </a>
-      </div>
-      <div className="flex mt-16 md:flex-row flex-col justify-between items-center">
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1], delay: 0.2 }}
+        className="flex mt-16 md:flex-row flex-col justify-between items-center gap-4"
+      >
         <p className="md:text-base text-sm md:font-normal font-light">
           Copyright © 2026 Jhon Renz Diaz
         </p>
 
-      <div className="flex items-center md:gap-3 gap-6">
-        {socialMedia.map((info) => {
-          // Dynamically assign the component reference to a capitalized variable for JSX
-          const IconComponent = info.Icon as React.ElementType;
-          
-          return (
-            <a
-              key={info.id}
-              href={info.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={info.label}
-              className="active:scale-90 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple rounded-lg group"
-            >
-              <div className="w-10 h-10 cursor-pointer flex justify-center items-center backdrop-filter backdrop-blur-lg saturate-180 bg-opacity-75 bg-black-200 rounded-lg border border-black-300 transition-colors group-hover:border-purple/50">
-                <IconComponent className="w-5 h-5 text-white/80 group-hover:text-purple transition-colors" />
-              </div>
-            </a>
-          );
-        })}
-      </div>
+        <div className="flex items-center md:gap-3 gap-6">
+          {socialMedia.map((info, idx) => {
+            // Dynamically assign the component reference to a capitalized variable for JSX
+            const IconComponent = info.Icon as React.ElementType;
 
-      </div>
+            return (
+              <motion.a
+                key={info.id}
+                href={info.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={info.label}
+                initial={{ opacity: 0, scale: 0.7 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{
+                  duration: 0.35,
+                  ease: [0.25, 1, 0.5, 1],
+                  delay: 0.3 + idx * 0.1,
+                }}
+                whileHover={{ scale: 1.12 }}
+                whileTap={{ scale: 0.9 }}
+                className="active:scale-90 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple rounded-lg group"
+              >
+                <div className="w-10 h-10 cursor-pointer flex justify-center items-center backdrop-filter backdrop-blur-lg saturate-180 bg-opacity-75 bg-black-200 rounded-lg border border-black-300 transition-colors group-hover:border-purple/50">
+                  <IconComponent className="w-5 h-5 text-white/80 group-hover:text-purple transition-colors" />
+                </div>
+              </motion.a>
+            );
+          })}
+        </div>
+      </motion.div>
     </footer>
   );
 };

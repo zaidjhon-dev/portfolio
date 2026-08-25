@@ -119,7 +119,7 @@ export const FloatingNav = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[4990] bg-black/50 backdrop-blur-[2px] sm:hidden"
+            className="fixed inset-0 z-[4990] bg-black/50 backdrop-blur-[2px] nav:hidden"
             onClick={() => setMenuOpen(false)}
             aria-hidden="true"
           />
@@ -135,8 +135,8 @@ export const FloatingNav = ({
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         className={cn(
           "fixed z-[5000] top-5 left-1/2",
-          "hidden sm:flex items-center gap-2.5",
-          "px-4 sm:px-5 py-2 rounded-full",
+          "hidden nav:flex items-center gap-1.5 lg:gap-2",
+          "px-4 py-2 rounded-full",
           "bg-black-200/80 backdrop-blur-xl border border-white/10",
           "shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]",
           className
@@ -148,17 +148,17 @@ export const FloatingNav = ({
           href="#home"
           onClick={(e) => handleNavClick(e, "#home")}
           aria-label="ZAID.DEV - Back to top"
-          className="relative flex items-center pr-2 pl-1 py-0.5 group/logo rounded-full transition-transform active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple/60 flex-shrink-0"
+          className="relative flex items-center pr-1.5 pl-0.5 py-0.5 group/logo rounded-full transition-transform active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple/60 flex-shrink-0"
         >
           <img
             src="/logo-primary.svg"
             alt="ZAID.DEV"
-            className="h-6 sm:h-7 w-auto object-contain transition-opacity duration-200 group-hover/logo:opacity-90"
+            className="h-7 w-auto object-contain transition-opacity duration-200 group-hover/logo:opacity-90"
           />
         </Link>
 
         {/* Subtle vertical divider */}
-        <div className="h-5 w-[1px] bg-white/15 mx-0.5 flex-shrink-0" aria-hidden="true" />
+        <div className="h-4 w-[1px] bg-white/15 mx-0.5 flex-shrink-0" aria-hidden="true" />
 
         {/* Navigation Items */}
         {navItems.map((navItem, idx) => {
@@ -170,7 +170,7 @@ export const FloatingNav = ({
               onClick={(e) => handleNavClick(e, navItem.link)}
               aria-label={navItem.name}
               className={cn(
-                "relative px-4 py-2 rounded-full",
+                "relative px-3.5 lg:px-4 py-2 rounded-full flex-shrink-0",
                 "text-sm font-medium transition-colors duration-200",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple/60",
                 isActive
@@ -191,13 +191,13 @@ export const FloatingNav = ({
         })}
       </motion.nav>
 
-      {/* ── Mobile top-left brand logo (below sm) ─────────────────────────── */}
+      {/* ── Mobile top-left brand logo (below md) ─────────────────────────── */}
       <motion.div
         key="mobile-logo"
         initial={{ opacity: 0, y: -80 }}
         animate={{ y: visible ? 0 : -120, opacity: visible ? 1 : 0 }}
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed z-[5000] top-4 left-4 sm:hidden"
+        className="fixed z-[5000] top-4 left-4 nav:hidden"
       >
         <Link
           href="#home"
@@ -220,13 +220,13 @@ export const FloatingNav = ({
         </Link>
       </motion.div>
 
-      {/* ── Mobile hamburger (below sm) ─────────────────────────────────── */}
+      {/* ── Mobile hamburger (below md) ─────────────────────────────────── */}
       <motion.div
         key="mobile-nav"
         initial={{ opacity: 0, y: -80 }}
         animate={{ y: visible ? 0 : -120, opacity: visible ? 1 : 0 }}
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed z-[5000] top-4 right-4 sm:hidden"
+        className="fixed z-[5000] top-4 right-4 nav:hidden"
       >
         {/* Hamburger trigger pill */}
         <button
