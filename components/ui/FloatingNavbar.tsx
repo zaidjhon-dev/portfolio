@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import {
   motion,
   AnimatePresence,
@@ -24,6 +24,14 @@ export const FloatingNav = ({
   const [visible, setVisible] = useState(true);
   const [activeSection, setActiveSection] = useState<string>("#home");
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // Tracks whether the component has mounted. On the very first render the
+  // navbar should appear instantly at its final visible position — no
+  // slide-in animation — to prevent the jarring flash on page load.
+  const hasMounted = useRef(false);
+  useEffect(() => {
+    hasMounted.current = true;
+  }, []);
 
   // ─── Show / hide navbar on scroll ─────────────────────────────────────────
   useMotionValueEvent(scrollYProgress, "change", (current) => {
@@ -111,7 +119,7 @@ export const FloatingNav = ({
   return (
     <>
       {/* ── Mobile Backdrop Overlay (dismisses on tap outside nav links) ── */}
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {menuOpen && (
           <motion.div
             key="mobile-backdrop"
@@ -130,7 +138,10 @@ export const FloatingNav = ({
       <motion.nav
         key="desktop-nav"
         aria-label="Main navigation"
-        initial={{ opacity: 0, y: -80, x: "-50%" }}
+        // Skip entrance animation on first mount (nav starts visible) to
+        // prevent the page-load slide-in flicker. After mount, animate
+        // normally for scroll-hide / scroll-reveal transitions.
+        initial={hasMounted.current ? { opacity: 0, y: -80, x: "-50%" } : { opacity: 1, y: 0, x: "-50%" }}
         animate={{ y: visible ? 0 : -120, opacity: visible ? 1 : 0, x: "-50%" }}
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         className={cn(
@@ -178,13 +189,15 @@ export const FloatingNav = ({
                   : "text-neutral-400 hover:text-white hover:bg-white/5"
               )}
             >
-              {isActive && (
-                <motion.span
-                  layoutId="activeNavPill"
-                  className="absolute inset-0 rounded-full bg-white/10 border border-white/15 shadow-sm"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                />
-              )}
+              {/* Always render pill so layoutId can animate between positions
+                  without the flicker caused by mounting/unmounting it. */}
+              <motion.span
+                layoutId="activeNavPill"
+                className="absolute inset-0 rounded-full bg-white/10 border border-white/15 shadow-sm"
+                initial={false}
+                animate={{ opacity: isActive ? 1 : 0, scale: isActive ? 1 : 0.85 }}
+                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              />
               <span className="relative z-10 whitespace-nowrap">{navItem.name}</span>
             </Link>
           );
@@ -194,7 +207,7 @@ export const FloatingNav = ({
       {/* ── Mobile top-left brand logo (below md) ─────────────────────────── */}
       <motion.div
         key="mobile-logo"
-        initial={{ opacity: 0, y: -80 }}
+        initial={hasMounted.current ? { opacity: 0, y: -80 } : { opacity: 1, y: 0 }}
         animate={{ y: visible ? 0 : -120, opacity: visible ? 1 : 0 }}
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         className="fixed z-[5000] top-4 left-4 nav:hidden"
@@ -223,7 +236,7 @@ export const FloatingNav = ({
       {/* ── Mobile hamburger (below md) ─────────────────────────────────── */}
       <motion.div
         key="mobile-nav"
-        initial={{ opacity: 0, y: -80 }}
+        initial={hasMounted.current ? { opacity: 0, y: -80 } : { opacity: 1, y: 0 }}
         animate={{ y: visible ? 0 : -120, opacity: visible ? 1 : 0 }}
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         className="fixed z-[5000] top-4 right-4 nav:hidden"
@@ -268,7 +281,7 @@ export const FloatingNav = ({
         </button>
 
         {/* Dropdown menu */}
-        <AnimatePresence>
+        <AnimatePresence initial={false}>
           {menuOpen && (
             <motion.div
               key="mobile-dropdown"
@@ -317,13 +330,14 @@ export const FloatingNav = ({
                         : "text-neutral-300 hover:text-white hover:bg-white/5"
                     )}
                   >
-                    {isActive && (
-                      <motion.span
-                        layoutId="activeMobilePill"
-                        className="absolute inset-0 rounded-xl bg-purple/20 border border-purple/40 shadow-[0_0_15px_rgba(203,172,249,0.25)]"
-                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                      />
-                    )}
+                    {/* Always render mobile pill (opacity-driven) for smooth layoutId transitions */}
+                    <motion.span
+                      layoutId="activeMobilePill"
+                      className="absolute inset-0 rounded-xl bg-purple/20 border border-purple/40 shadow-[0_0_15px_rgba(203,172,249,0.25)]"
+                      initial={false}
+                      animate={{ opacity: isActive ? 1 : 0, scale: isActive ? 1 : 0.85 }}
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
                     {navItem.icon && (
                       <span className="relative z-10 text-base">{navItem.icon}</span>
                     )}

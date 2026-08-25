@@ -19,7 +19,7 @@ const projectDetails: Record<
   }
 > = {
   1: {
-    subtitle: "Interactive 3D Solar System Experience",
+    subtitle: "A modern and interactive web application",
     overview:
       "DermaSure PH functions as a secure discovery portal that will verify skincare products against the FDA Philippines database, protecting consumers from counterfeit items and harmful ingredients. The platform avoids direct sales, instead linking users directly to official distributors on Shopee or Lazada to ensure authenticity.",
     features: [
@@ -88,7 +88,7 @@ const RecentProjects = () => {
       </p>
 
       {/* ─── Expandable Modal Overlay ────────────────────────────────────── */}
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {active && (
           <motion.div
             key="project-modal-backdrop"
@@ -101,7 +101,7 @@ const RecentProjects = () => {
         )}
       </AnimatePresence>
 
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {active && (
           <div
             key="project-modal-container"
@@ -254,6 +254,10 @@ const RecentProjects = () => {
           <motion.div
             key={item.id}
             onClick={() => setActive(item)}
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
             whileHover={{ y: -4, transition: { duration: 0.2 } }}
             whileTap={{ scale: 0.98 }}
             className={cn(

@@ -47,6 +47,8 @@ export const BentoGridItem = ({
   imgClassName,
   titleClassName,
   spareImg,
+  isInView = false,
+  animationDelay = 0,
 }: {
   className?: string;
   id: number;
@@ -56,6 +58,10 @@ export const BentoGridItem = ({
   imgClassName?: string;
   titleClassName?: string;
   spareImg?: string;
+  /** Passed from Grid: whether the section container is in view (once). */
+  isInView?: boolean;
+  /** Stagger offset in seconds for this card's entrance animation. */
+  animationDelay?: number;
 }) => {
   const leftLists = ["Tailwind CSS", "Typescript", "React.js"];
   const rightLists = ["Laravel", "PHP","Html/Css"];
@@ -105,7 +111,7 @@ export const BentoGridItem = ({
   return (
     <>
       {/* ─── Expandable Certificate Modal (for id === 6) ────────────────── */}
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {activeCert && (
           <motion.div
             key="cert-modal-backdrop"
@@ -118,7 +124,7 @@ export const BentoGridItem = ({
         )}
       </AnimatePresence>
 
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {activeCert && (
           <div
             key="cert-modal-container"
@@ -228,13 +234,15 @@ export const BentoGridItem = ({
 
       {/* ─── Bento Grid Item Card ────────────────────────────────────────── */}
       <motion.div
+        // Animation driven by parent Grid's single useInView — not by a
+        // per-card IntersectionObserver. This eliminates the timing race
+        // that caused the flicker when the section entered the viewport.
         initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.08 }}
-        transition={{ duration: 0.55, ease: [0.25, 1, 0.5, 1] }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+        transition={{ duration: 0.55, ease: [0.25, 1, 0.5, 1], delay: animationDelay }}
         className={cn(
           "row-span-1 relative overflow-hidden rounded-3xl border border-white/[0.1] group/bento hover:border-white/[0.2] hover:shadow-xl transition-all duration-300 shadow-input dark:shadow-none justify-between flex flex-col space-y-4 transform-gpu",
-          id === 2 && "min-h-[240px] sm:min-h-[280px]",
+          id === 2 && "min-h-[300px] sm:min-h-[340px] md:min-h-[350px] lg:min-h-[360px]",
           className
         )}
         style={{
@@ -335,6 +343,7 @@ export const BentoGridItem = ({
                       }}
                     >
                       <motion.span
+                        initial={{ y: 0 }}
                         animate={{ y: [0, -6, 0] }}
                         transition={{
                           duration: 3.5 + i * 0.6,
@@ -379,6 +388,7 @@ export const BentoGridItem = ({
                       }}
                     >
                       <motion.span
+                        initial={{ y: 0 }}
                         animate={{ y: [0, -6, 0] }}
                         transition={{
                           duration: 4.0 + i * 0.6,

@@ -39,7 +39,7 @@ const BackToTop = () => {
   };
 
   return (
-    <AnimatePresence>
+    <AnimatePresence initial={false}>
       {show && (
         <motion.button
           key="back-to-top"

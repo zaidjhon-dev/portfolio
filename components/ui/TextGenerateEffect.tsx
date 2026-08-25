@@ -11,44 +11,37 @@ export const TextGenerateEffect = ({
   className?: string;
 }) => {
   const [scope, animate] = useAnimate();
-  let wordsArray = words ? words.split(" ") : [];
+  const wordsArray = words ? words.split(" ") : [];
+
+  // Fix: empty deps [] so the animation fires exactly once on mount.
+  // scope.current is a mutable ref value and must NOT be a useEffect
+  // dependency — it causes re-triggering conflicts and flickering.
   useEffect(() => {
     if (scope.current) {
       animate(
         "span",
-        {
-          opacity: 1,
-        },
-        {
-          duration: 2,
-          delay: stagger(0.2),
-        }
+        { opacity: 1 },
+        { duration: 2, delay: stagger(0.2) }
       );
     }
-  }, [scope.current]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const renderWords = () => {
-    return (
-      <motion.div ref={scope}>
-        {wordsArray.map((word, idx) => {
-          return (
-            <motion.span
-              key={word + idx}
-              // change here if idx is greater than 3, change the text color to #CBACF9
-              className={` ${idx > 3 ? "text-purple" : "text-white"
-                } opacity-0`}
-            >
-              {word}{" "}
-            </motion.span>
-          );
-        })}
-      </motion.div>
-    );
-  };
+  const renderWords = () => (
+    <motion.div ref={scope}>
+      {wordsArray.map((word, idx) => (
+        <motion.span
+          key={word + idx}
+          className={`${idx > 3 ? "text-purple" : "text-white"} opacity-0`}
+        >
+          {word}{" "}
+        </motion.span>
+      ))}
+    </motion.div>
+  );
 
   return (
     <div className={cn("font-bold", className)}>
-      {/* mt-4 to my-4 */}
       <div className="my-4">
         <div className="text-white leading-snug tracking-tight">
           {renderWords()}

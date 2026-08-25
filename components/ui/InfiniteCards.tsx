@@ -23,9 +23,16 @@ export const InfiniteMovingCards = ({
   const containerRef = React.useRef<HTMLDivElement>(null);
   const scrollerRef = React.useRef<HTMLUListElement>(null);
   const [start, setStart] = useState(false);
+  // Guard against double-invocation in React StrictMode (effects run twice
+  // in dev), which would clone items a second time causing duplicate cards.
+  const hasAnimated = React.useRef(false);
 
   useEffect(() => {
-    addAnimation();
+    if (!hasAnimated.current) {
+      hasAnimated.current = true;
+      addAnimation();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function addAnimation() {
