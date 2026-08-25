@@ -80,7 +80,7 @@ export const certificates = [
     description:
       "Learned to clean, process, and analyze IoT data using Python, including data manipulation, visualization, and interpretation of results.",
     credentialUrl: "https://www.datacamp.com/completed/statement-of-accomplishment/course/9fdf77303c113df57672466fa81c6a7db7878ae5?utm_medium=organic_social&utm_campaign=sharewidget&utm_content=soa",
-    image: "/iot-python.png",
+    image: "/iot.png",
   },
   {
     id: 2,
