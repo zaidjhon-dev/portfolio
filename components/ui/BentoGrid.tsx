@@ -87,14 +87,27 @@ const TechStackCardContent = () => {
 /* ─── Subcomponent: Card 4 Education Details ────────────────────────────── */
 const EducationCardContent = () => {
   return (
-    <div className="mt-2.5 sm:mt-3 flex flex-col gap-2 z-10">
-      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple/10 border border-purple/25 w-fit max-w-full">
-        <IoSchoolOutline className="w-4 h-4 text-purple flex-shrink-0" />
-        <span className="text-[11px] sm:text-xs text-purple font-medium truncate">
-          2022 – 2026 • Asian College of Science and Technology
-        </span>
+    <div className="flex-1 flex flex-col items-center justify-center gap-3 py-2 sm:py-3 z-10">
+      {/* Icon */}
+      <div className="p-3 sm:p-3.5 rounded-2xl bg-purple/15 border border-purple/30">
+        <IoSchoolOutline className="w-5 h-5 sm:w-6 sm:h-6 text-purple" />
       </div>
-      <p className="text-xs text-neutral-400 font-light mt-0.5 leading-relaxed">
+
+      {/* School & Year */}
+      <div className="flex flex-col items-center gap-1 text-center">
+        <span className="text-[10px] sm:text-[11px] uppercase tracking-widest text-purple font-semibold">
+          2022 – 2026
+        </span>
+        <p className="text-xs sm:text-sm font-semibold text-white/90 leading-snug max-w-[220px]">
+          Asian College of Science and Technology
+        </p>
+      </div>
+
+      {/* Divider */}
+      <div className="w-10 h-px bg-white/10" />
+
+      {/* Specialization */}
+      <p className="text-[11px] sm:text-xs text-neutral-400 font-light leading-relaxed text-center max-w-[240px]">
         Specialized in software development, web architecture, and modern computer systems.
       </p>
     </div>
@@ -446,33 +459,52 @@ export const BentoGridItem = ({
           className={cn(
             titleClassName,
             "relative md:h-full min-h-36 sm:min-h-40 flex flex-col px-4 sm:px-6 p-4 sm:p-6 lg:p-8 z-10",
-            id === 1 ? "justify-end" : "justify-between"
+            id === 1 ? "justify-end" : id === 4 ? "justify-start" : "justify-between"
           )}
         >
-          <div className={cn("relative z-20", id === 1 && "mt-auto")}>
-            {/* Subtitle / Category label */}
-            {description && (
-              <div className="font-sans font-extralight text-xs sm:text-sm lg:text-base text-[#C1C2D3] z-10">
-                {description}
+          {/* Card 4: Education — centered layout */}
+          {id === 4 ? (
+            <div className="flex flex-col h-full">
+              <div className="relative z-20">
+                {description && (
+                  <div className="font-sans font-extralight text-xs sm:text-sm text-[#C1C2D3] z-10">
+                    {description}
+                  </div>
+                )}
+                <div className="font-heading text-base sm:text-lg lg:text-2xl xl:text-3xl font-bold z-10 tracking-tight leading-snug mt-1">
+                  {title}
+                </div>
               </div>
-            )}
-
-            {/* Main Title */}
-            <div
-              className={cn(
-                "font-heading text-base sm:text-lg lg:text-2xl xl:text-3xl font-bold z-10 tracking-tight leading-snug mt-1",
-                (id === 1 || id === 2) && "text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]"
-              )}
-            >
-              {title}
+              <EducationCardContent />
             </div>
-          </div>
+          ) : (
+            <>
+              <div className={cn("relative z-20", id === 1 && "mt-auto")}>
+                {/* Subtitle / Category label */}
+                {description && (
+                  <div className="font-sans font-extralight text-xs sm:text-sm lg:text-base text-[#C1C2D3] z-10">
+                    {description}
+                  </div>
+                )}
 
-          {/* Conditional Subcomponents by ID */}
-          {id === 2 && <GridGlobe />}
-          {id === 3 && <TechStackCardContent />}
-          {id === 4 && <EducationCardContent />}
-          {id === 6 && <CertificateCardContent />}
+                {/* Main Title */}
+                <div
+                  className={cn(
+                    "font-heading text-base sm:text-lg lg:text-2xl xl:text-3xl font-bold z-10 tracking-tight leading-snug mt-1",
+                    (id === 1 || id === 2) && "text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]",
+                    id === 5 && "text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]"
+                  )}
+                >
+                  {title}
+                </div>
+              </div>
+
+              {/* Conditional Subcomponents by ID */}
+              {id === 2 && <GridGlobe />}
+              {id === 3 && <TechStackCardContent />}
+              {id === 6 && <CertificateCardContent />}
+            </>
+          )}
         </div>
       </div>
     </motion.div>

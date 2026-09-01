@@ -50,7 +50,7 @@ export const gridItems = [
   {
     id: 4,
     title: "Bachelor of Science in Information Technology",
-    description: "Education & Background",
+    description: "Education",
     className: "lg:col-span-3 lg:row-span-1 md:col-span-3 md:row-span-1 min-h-[160px] sm:min-h-[180px]",
     imgClassName: "",
     titleClassName: "justify-start",
