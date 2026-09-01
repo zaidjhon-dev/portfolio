@@ -10,7 +10,7 @@ const Grid = () => {
   // Driving all card animations from here prevents per-card IO timing races
   // that caused the flicker when items were already in the viewport.
   const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: true, amount: 0.05 });
+  const isInView = useInView(ref, { once: true, margin: "200px 0px 0px 0px" });
 
   return (
     <section id="about" className="scroll-mt-24" ref={ref}>
@@ -29,7 +29,7 @@ const Grid = () => {
             // Pass isInView + stagger delay so the card animates exactly once,
             // driven by the parent — not by its own IntersectionObserver.
             isInView={isInView}
-            animationDelay={i * 0.07}
+            animationDelay={i * 0.03}
           />
         ))}
       </BentoGrid>

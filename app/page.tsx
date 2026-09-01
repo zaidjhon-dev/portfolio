@@ -1,5 +1,3 @@
-"use client";
-
 import { navItems } from "@/data";
 
 import Hero from "@/components/Hero";
@@ -10,18 +8,18 @@ import RecentProjects from "@/components/RecentProjects";
 import { FloatingNav } from "@/components/ui/FloatingNavbar";
 import BackToTop from "@/components/ui/BackToTop";
 
+export const revalidate = 3600; // Cache & revalidate hourly for static performance
+
 const Home = () => {
   return (
-    <main
-      className="relative bg-black-100 flex flex-col items-center min-h-screen mx-auto overflow-x-clip"
-    >
+    <main className="relative bg-black-100 flex flex-col items-center min-h-screen mx-auto overflow-x-clip">
       {/* Floating navigation */}
       <FloatingNav navItems={navItems} />
 
       {/* Back-to-top arrow */}
       <BackToTop />
 
-      {/* Full-width Hero section (background & spotlight spans edge-to-edge) */}
+      {/* Full-width Hero section */}
       <Hero />
 
       {/* Main contained sections */}

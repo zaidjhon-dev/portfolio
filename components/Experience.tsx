@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 import { workExperience } from "@/data";
@@ -18,7 +19,7 @@ const cardVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, ease: [0.25, 1, 0.5, 1] },
+    transition: { duration: 0.35, ease: [0.25, 1, 0.5, 1] },
   },
 };
 
@@ -28,7 +29,7 @@ const Experience = () => {
       <motion.h1
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.5 }}
+        viewport={{ once: true, margin: "150px 0px 0px 0px" }}
         transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
         className="heading"
       >
@@ -39,8 +40,8 @@ const Experience = () => {
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.1 }}
-        className="w-full mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 lg:gap-8"
+        viewport={{ once: true, margin: "150px 0px 0px 0px" }}
+        className="w-full mt-10 sm:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 lg:gap-8"
       >
         {workExperience.map((card) => (
           <motion.div
@@ -59,19 +60,21 @@ const Experience = () => {
               }}
               className="text-black dark:text-white border-neutral-200 dark:border-slate-800 w-full"
             >
-              <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row items-center sm:items-start lg:items-center p-5 md:p-6 lg:p-7 gap-3 sm:gap-4">
-                <img
-                  src={card.thumbnail}
-                  alt={card.title}
-                  loading="lazy"
-                  decoding="async"
-                  className="w-14 sm:w-16 lg:w-14 xl:w-16 flex-shrink-0 object-contain"
-                />
-                <div className="text-center sm:text-left lg:text-center xl:text-left">
-                  <h1 className="text-lg sm:text-xl font-bold leading-snug">
+              <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row items-center sm:items-start lg:items-center p-5 md:p-6 lg:p-7 gap-3.5 sm:gap-4 w-full">
+                <div className="relative w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0">
+                  <Image
+                    src={card.thumbnail}
+                    alt={card.title}
+                    fill
+                    sizes="(max-width: 640px) 56px, 64px"
+                    className="object-contain"
+                  />
+                </div>
+                <div className="text-center sm:text-left lg:text-center xl:text-left flex-1 min-w-0">
+                  <h1 className="text-base sm:text-lg lg:text-xl font-bold leading-snug">
                     {card.title}
                   </h1>
-                  <p className="text-white-100 mt-2 text-sm font-medium leading-relaxed">
+                  <p className="text-white-100 mt-2 text-xs sm:text-sm font-medium leading-relaxed">
                     {card.desc}
                   </p>
                 </div>

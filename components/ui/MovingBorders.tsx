@@ -1,13 +1,13 @@
 "use client";
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import {
   motion,
   useAnimationFrame,
   useMotionTemplate,
   useMotionValue,
   useTransform,
+  useInView,
 } from "framer-motion";
-import { useRef } from "react";
 import { cn } from "@/lib/utils";
 
 export function Button({
@@ -32,7 +32,6 @@ export function Button({
   return (
     <Component
       className={cn(
-        // remove h-16 w-40, add  md:col-span-2
         "bg-transparent relative text-xl p-[1px] overflow-hidden md:col-span-2 md:row-span-1",
         containerClassName
       )}
@@ -42,7 +41,7 @@ export function Button({
       {...otherProps}
     >
       <div
-        className="absolute inset-0 rounde-[1.75rem]"
+        className="absolute inset-0"
         style={{ borderRadius: `calc(${borderRadius} * 0.96)` }}
       >
         <MovingBorder duration={duration} rx="30%" ry="30%">
@@ -57,7 +56,7 @@ export function Button({
 
       <div
         className={cn(
-          "relative bg-slate-900/[0.] border border-slate-800 backdrop-blur-xl text-white flex items-center justify-center w-full h-full text-sm antialiased",
+          "relative bg-slate-900/[0.8] border border-slate-800 backdrop-blur-xl text-white flex items-center justify-center w-full h-full text-sm antialiased",
           className
         )}
         style={{
@@ -83,12 +82,26 @@ export const MovingBorder = ({
   ry?: string;
   [key: string]: any;
 }) => {
-  const pathRef = useRef<any>();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const pathRef = useRef<SVGRectElement>(null);
+  const lengthRef = useRef<number>(0);
   const progress = useMotionValue<number>(0);
 
+  // Viewport gating: only animate when near or inside viewport
+  const isInView = useInView(containerRef, { margin: "100px" });
+
+  useEffect(() => {
+    if (pathRef.current) {
+      lengthRef.current = pathRef.current.getTotalLength() || 0;
+    }
+  }, []);
+
   useAnimationFrame((time) => {
-    const length = pathRef.current?.getTotalLength();
+    if (!isInView) return;
+
+    const length = lengthRef.current || pathRef.current?.getTotalLength();
     if (length) {
+      lengthRef.current = length;
       const pxPerMillisecond = length / duration;
       progress.set((time * pxPerMillisecond) % length);
     }
@@ -96,17 +109,17 @@ export const MovingBorder = ({
 
   const x = useTransform(
     progress,
-    (val) => pathRef.current?.getPointAtLength(val).x
+    (val) => pathRef.current?.getPointAtLength(val).x ?? 0
   );
   const y = useTransform(
     progress,
-    (val) => pathRef.current?.getPointAtLength(val).y
+    (val) => pathRef.current?.getPointAtLength(val).y ?? 0
   );
 
   const transform = useMotionTemplate`translateX(${x}px) translateY(${y}px) translateX(-50%) translateY(-50%)`;
 
   return (
-    <>
+    <div ref={containerRef} className="absolute inset-0">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         preserveAspectRatio="none"
@@ -135,6 +148,6 @@ export const MovingBorder = ({
       >
         {children}
       </motion.div>
-    </>
+    </div>
   );
 };

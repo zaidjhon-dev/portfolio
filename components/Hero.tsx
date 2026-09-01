@@ -1,7 +1,10 @@
-import MagicButton from "./MagicButton";
+"use client";
+
+import Image from "next/image";
 import { Spotlight } from "./ui/Spotlight";
 import { TextGenerateEffect } from "./ui/TextGenerateEffect";
 import CardSpotlight from "./ui/CardSpotlight";
+import MagicButton from "./MagicButton";
 
 const Hero = () => {
   return (
@@ -22,7 +25,7 @@ const Hero = () => {
           <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black-100 via-black-100/70 to-transparent" />
         </div>
 
-        {/* New animated dual-beam ambient spotlight */}
+        {/* Animated dual-beam ambient spotlight */}
         <Spotlight />
       </div>
 
@@ -30,16 +33,16 @@ const Hero = () => {
        *  Hero Content Container with Responsive Portrait Space
        *  Centered within max-w-7xl with standard responsive padding
        */}
-      <div className="relative z-10 w-full max-w-7xl sm:px-10 px-5 pt-24 sm:pt-28 md:pt-32 pb-16 flex flex-col-reverse lg:flex-row items-center justify-between gap-10 lg:gap-14 my-auto">
+      <div className="relative z-10 w-full max-w-7xl sm:px-10 px-5 pt-24 sm:pt-28 md:pt-32 pb-16 flex flex-col-reverse lg:flex-row items-center justify-between gap-8 sm:gap-10 lg:gap-14 my-auto">
         {/* Left Column: Intro text and Call to Action */}
         <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left max-w-2xl lg:max-w-none">
 
           {/**
-           *  Headline with Text Generate Effect
+           *  Headline with Text Generate Effect (Fluid typography)
            */}
           <TextGenerateEffect
             words="Learning, designing, and coding for the modern web."
-            className="font-heading text-[32px] sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold leading-tight tracking-tight"
+            className="font-heading text-2xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold leading-tight tracking-tight"
           />
 
           {/* Subtitle / Bio */}
@@ -48,7 +51,7 @@ const Hero = () => {
           </p>
 
           {/* Call to Action Button */}
-          <div className="mt-4 sm:mt-6">
+          <div className="mt-4 sm:mt-6 w-full sm:w-auto flex justify-center lg:justify-start">
             <a
               href="#about"
               onClick={(e) => {
@@ -59,10 +62,11 @@ const Hero = () => {
                   window.history.replaceState(null, "", "#about");
                 }
               }}
+              className="w-full sm:w-auto block"
             >
               <MagicButton
-                title="Know more about me"
-                position="right"
+              title="Know more about me"
+              position="right"
               />
             </a>
           </div>
@@ -79,7 +83,7 @@ const Hero = () => {
               radius={320}
               color="rgba(140, 90, 255, 0.30)"
               className="
-                w-56 h-64
+                w-52 h-60
                 sm:w-64 sm:h-72
                 md:w-72 md:h-80
                 lg:w-80 lg:h-[390px]
@@ -87,15 +91,18 @@ const Hero = () => {
                 rounded-[22px]
                 bg-black-200/90
                 border border-white/10
+                overflow-hidden
+                relative
               "
             >
-              {/* Portrait image – fills the CardSpotlight card */}
-              <img
+              {/* Portrait image – Next.js optimized with priority for instant LCP */}
+              <Image
                 src="/profile.png"
                 alt="Jhon – Web Developer Portrait"
-                fetchPriority="high"
-                decoding="async"
-                className="absolute inset-0 w-full h-full object-cover scale-[150%] object-top"
+                fill
+                priority
+                sizes="(max-width: 640px) 208px, (max-width: 768px) 256px, (max-width: 1024px) 320px, 450px"
+                className="object-cover scale-[150%] object-top"
               />
 
               {/* Bottom gradient fade overlay */}

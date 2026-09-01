@@ -9,9 +9,9 @@ export const navItems = [
 export const gridItems = [
   {
     id: 1,
-    title: "I prioritize client collaboration, fostering open communication ",
+    title: "I prioritize client collaboration, fostering open communication",
     description: "",
-    className: "lg:col-span-3 md:col-span-6 md:row-span-4 lg:min-h-[60vh]",
+    className: "lg:col-span-3 lg:row-span-2 md:col-span-6 md:row-span-2 min-h-[300px] sm:min-h-[340px] lg:min-h-[360px]",
     imgClassName: "w-full h-full",
     titleClassName: "justify-end",
     img: "/my-image.jpg",
@@ -21,7 +21,7 @@ export const gridItems = [
     id: 2,
     title: "I'm very flexible with time zone communications",
     description: "",
-    className: "lg:col-span-2 md:col-span-3 md:row-span-2",
+    className: "lg:col-span-2 lg:row-span-2 md:col-span-3 md:row-span-2 min-h-[300px] sm:min-h-[340px] lg:min-h-[360px]",
     imgClassName: "",
     titleClassName: "justify-start",
     img: "",
@@ -31,38 +31,37 @@ export const gridItems = [
     id: 3,
     title: "My tech stack",
     description: "I constantly try to improve",
-    className: "lg:col-span-2 md:col-span-3 md:row-span-2",
+    className: "lg:col-span-2 lg:row-span-2 md:col-span-3 md:row-span-2 min-h-[280px] sm:min-h-[300px] lg:min-h-[320px]",
     imgClassName: "",
     titleClassName: "justify-center",
     img: "",
     spareImg: "",
   },
   {
-    id: 4,
-    title: "Bachelor of Science in Information Technology",
-    description: "Education & Background",
-    className: "lg:col-span-2 md:col-span-3 md:row-span-1",
-    imgClassName: "",
-    titleClassName: "justify-start",
-    img: "/grid.svg",
-    spareImg: "/bg.png",
-  },
-
-  {
     id: 5,
     title: "Currently building DermaSure PH",
     description: "A work in progress",
-    className: "md:col-span-3 md:row-span-2",
+    className: "lg:col-span-3 lg:row-span-2 md:col-span-6 md:row-span-2 min-h-[280px] sm:min-h-[300px] lg:min-h-[320px]",
     imgClassName: "absolute right-0 bottom-0 md:w-96 w-60",
     titleClassName: "justify-center md:justify-start lg:justify-center",
     img: "/b5.svg",
     spareImg: "/grid.svg",
   },
   {
+    id: 4,
+    title: "Bachelor of Science in Information Technology",
+    description: "Education & Background",
+    className: "lg:col-span-3 lg:row-span-1 md:col-span-3 md:row-span-1 min-h-[160px] sm:min-h-[180px]",
+    imgClassName: "",
+    titleClassName: "justify-start",
+    img: "/grid.svg",
+    spareImg: "/bg.png",
+  },
+  {
     id: 6,
     title: "Certifications & Professional Credentials",
     description: "Verified Achievements",
-    className: "lg:col-span-2 md:col-span-3 md:row-span-1",
+    className: "lg:col-span-2 lg:row-span-1 md:col-span-3 md:row-span-1 min-h-[160px] sm:min-h-[180px]",
     imgClassName: "",
     titleClassName: "justify-start",
     img: "",
@@ -89,7 +88,7 @@ export const certificates = [
     date: "2025",
     skills: ["Python", "Machine Learning", "Dataset Handling"],
     description:
-      "Learned Machine Learning with Python, gaining knowledge  in data processing, model training, and data science fundamentals.",
+      "Learned Machine Learning with Python, gaining knowledge in data processing, model training, and data science fundamentals.",
     credentialUrl: "https://freecodecamp.org/certification/jhon_renz_diaz_bsit_222_1a/machine-learning-with-python-v7",
     image: "/machine-learning.png", 
   },
@@ -112,42 +111,8 @@ export const projects = [
     title: "Dermasure PH",
     des: "A discovery portal that helps consumers safely find authentic skincare products in the Philippines by cross-checking items against the official Food and Drug Administration (FDA) database.",
     img: "/dermasure.png",
-    iconLists: ["/nextjs.svg", "/tail.svg", "/ts.svg", "/supabase.svg", "/re.svg","/fm.svg"],
+    iconLists: ["/nextjs.svg", "/tail.svg", "/ts.svg", "/supabase.svg", "/re.svg", "/fm.svg"],
     link: "https://dermasure-ph.vercel.app/",
-  }
-];
-
-
-export const companies = [
-  {
-    id: 1,
-    name: "cloudinary",
-    img: "/cloud.svg",
-    nameImg: "/cloudName.svg",
-  },
-  {
-    id: 2,
-    name: "appwrite",
-    img: "/app.svg",
-    nameImg: "/appName.svg",
-  },
-  {
-    id: 3,
-    name: "HOSTINGER",
-    img: "/host.svg",
-    nameImg: "/hostName.svg",
-  },
-  {
-    id: 4,
-    name: "stream",
-    img: "/s.svg",
-    nameImg: "/streamName.svg",
-  },
-  {
-    id: 5,
-    name: "docker.",
-    img: "/dock.svg",
-    nameImg: "/dockerName.svg",
   },
 ];
 
@@ -163,7 +128,7 @@ export const workExperience = [
     id: 2,
     title: "English Customer Service Representative",
     desc: "Handled inbound calls and resolved customer inquiries, food delivery, order modifications, and cancellations for a US-based food ordering company.",
-    className: "md:col-span-2", // change to md:col-span-2
+    className: "md:col-span-2",
     thumbnail: "/exp1.svg",
   },
 ];

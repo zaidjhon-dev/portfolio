@@ -6,6 +6,7 @@ import {
   useScroll,
   useMotionValueEvent,
 } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
@@ -138,9 +139,6 @@ export const FloatingNav = ({
       <motion.nav
         key="desktop-nav"
         aria-label="Main navigation"
-        // Skip entrance animation on first mount (nav starts visible) to
-        // prevent the page-load slide-in flicker. After mount, animate
-        // normally for scroll-hide / scroll-reveal transitions.
         initial={hasMounted.current ? { opacity: 0, y: -80, x: "-50%" } : { opacity: 1, y: 0, x: "-50%" }}
         animate={{ y: visible ? 0 : -120, opacity: visible ? 1 : 0, x: "-50%" }}
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
@@ -161,9 +159,11 @@ export const FloatingNav = ({
           aria-label="ZAID.DEV - Back to top"
           className="relative flex items-center pr-1.5 pl-0.5 py-0.5 group/logo rounded-full transition-transform active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple/60 flex-shrink-0"
         >
-          <img
+          <Image
             src="/logo-primary.svg"
             alt="ZAID.DEV"
+            width={70}
+            height={28}
             className="h-7 w-auto object-contain transition-opacity duration-200 group-hover/logo:opacity-90"
           />
         </Link>
@@ -189,8 +189,6 @@ export const FloatingNav = ({
                   : "text-neutral-400 hover:text-white hover:bg-white/5"
               )}
             >
-              {/* Always render pill so layoutId can animate between positions
-                  without the flicker caused by mounting/unmounting it. */}
               <motion.span
                 layoutId="activeNavPill"
                 className="absolute inset-0 rounded-full bg-white/10 border border-white/15 shadow-sm"
@@ -225,9 +223,11 @@ export const FloatingNav = ({
           )}
           style={{ backdropFilter: "blur(16px) saturate(180%)" }}
         >
-          <img
+          <Image
             src="/logo-primary.svg"
             alt="ZAID.DEV"
+            width={60}
+            height={20}
             className="h-5 w-auto object-contain"
           />
         </Link>
@@ -252,7 +252,7 @@ export const FloatingNav = ({
             "shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]",
             "text-white text-sm font-medium touch-manipulation",
             "active:scale-95 transition-transform duration-150",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple/60"
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple/60 min-h-[44px]"
           )}
           style={{ backdropFilter: "blur(16px) saturate(180%)" }}
         >
@@ -305,9 +305,11 @@ export const FloatingNav = ({
             >
               {/* Dropdown Header Brand */}
               <div className="px-3.5 py-2 mb-1 border-b border-white/10 flex items-center justify-between">
-                <img
+                <Image
                   src="/logo-primary.svg"
                   alt="ZAID.DEV"
+                  width={60}
+                  height={20}
                   className="h-5 w-auto object-contain"
                 />
               </div>
@@ -330,7 +332,6 @@ export const FloatingNav = ({
                         : "text-neutral-300 hover:text-white hover:bg-white/5"
                     )}
                   >
-                    {/* Always render mobile pill (opacity-driven) for smooth layoutId transitions */}
                     <motion.span
                       layoutId="activeMobilePill"
                       className="absolute inset-0 rounded-xl bg-purple/20 border border-purple/40 shadow-[0_0_15px_rgba(203,172,249,0.25)]"

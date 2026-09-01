@@ -1,8 +1,7 @@
 "use client";
 
 import { useMotionValue, motion, useMotionTemplate } from "framer-motion";
-import React, { MouseEvent as ReactMouseEvent, useState } from "react";
-import { CanvasRevealEffect } from "@/components/ui/CanvasRevealEffect";
+import React, { MouseEvent as ReactMouseEvent } from "react";
 import { cn } from "@/lib/utils";
 
 interface CardSpotlightProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -16,13 +15,13 @@ interface CardSpotlightProps extends React.HTMLAttributes<HTMLDivElement> {
 
 /**
  * CardSpotlight
- * Mouse-tracking radial gradient spotlight with an animated dot-matrix
- * CanvasRevealEffect revealed inside the spotlight mask on hover.
- * The effect layer sits at z-0, behind all children (image, overlays, etc).
+ * Mouse-tracking radial gradient spotlight with an animated CSS dot-matrix
+ * revealed inside the spotlight mask on hover.
+ * 100% hardware-accelerated with 0 WebGL overhead.
  */
 const CardSpotlight = ({
   radius = 350,
-  color = "#262626",
+  color = "rgba(140, 90, 255, 0.30)",
   className,
   children,
   ...props
@@ -40,17 +39,13 @@ const CardSpotlight = ({
     mouseY.set(clientY - top);
   }
 
-  const [isHovering, setIsHovering] = useState(false);
-
   return (
     <div
       className={cn("group/spotlight relative overflow-hidden", className)}
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
       {...props}
     >
-      {/* Spotlight mask with CanvasRevealEffect – behind everything */}
+      {/* Spotlight mask with animated CSS dot matrix grid */}
       <motion.div
         className="pointer-events-none absolute z-0 -inset-px rounded-[inherit] opacity-0 transition duration-300 group-hover/spotlight:opacity-100"
         style={{
@@ -62,23 +57,19 @@ const CardSpotlight = ({
               transparent 80%
             )
           `,
+          WebkitMaskImage: useMotionTemplate`
+            radial-gradient(
+              ${radius}px circle at ${mouseX}px ${mouseY}px,
+              white,
+              transparent 80%
+            )
+          `,
         }}
       >
-        {isHovering && (
-          <CanvasRevealEffect
-            animationSpeed={5}
-            containerClassName="bg-transparent absolute inset-0 pointer-events-none"
-            colors={[
-              [59, 130, 246],
-              [139, 92, 246],
-            ]}
-            dotSize={3}
-            showGradient={false}
-          />
-        )}
+        <div className="absolute inset-0 bg-[radial-gradient(#8b5cf6_1.5px,transparent_1.5px)] [background-size:16px_16px] opacity-40 animate-pulse" />
       </motion.div>
 
-      {/* Content – sits above the spotlight layer */}
+      {/* Content layer */}
       <div className="relative z-10 h-full w-full">{children}</div>
     </div>
   );

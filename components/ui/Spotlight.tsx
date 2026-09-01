@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 type SpotlightProps = {
@@ -12,8 +11,6 @@ type SpotlightProps = {
   width?: number;
   height?: number;
   smallWidth?: number;
-  duration?: number;
-  xOffset?: number;
 };
 
 export const Spotlight = ({
@@ -25,33 +22,14 @@ export const Spotlight = ({
   width = 560,
   height = 1380,
   smallWidth = 240,
-  duration = 7,
-  xOffset = 100,
 }: SpotlightProps = {}) => {
   return (
-    <motion.div
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-      }}
-      transition={{
-        duration: 1.5,
-      }}
-      className={cn("pointer-events-none absolute inset-0 h-full w-full", className)}
+    <div
+      className={cn("pointer-events-none absolute inset-0 h-full w-full overflow-hidden opacity-100 transition-opacity duration-1000", className)}
     >
-      <motion.div
-        animate={{
-          x: [0, xOffset, 0],
-        }}
-        transition={{
-          duration,
-          repeat: Infinity,
-          repeatType: "reverse",
-          ease: "easeInOut",
-        }}
-        className="absolute top-0 left-0 w-full h-full pointer-events-none"
+      {/* Left Spotlight Beam */}
+      <div
+        className="absolute top-0 left-0 w-full h-full pointer-events-none animate-float-slow transform-gpu"
       >
         <div
           style={{
@@ -60,7 +38,7 @@ export const Spotlight = ({
             width: `${width}px`,
             height: `${height}px`,
           }}
-          className={`absolute top-0 left-0`}
+          className="absolute top-0 left-0"
         />
 
         <div
@@ -70,7 +48,7 @@ export const Spotlight = ({
             width: `${smallWidth}px`,
             height: `${height}px`,
           }}
-          className={`absolute top-0 left-0 origin-top-left`}
+          className="absolute top-0 left-0 origin-top-left"
         />
 
         <div
@@ -80,21 +58,14 @@ export const Spotlight = ({
             width: `${smallWidth}px`,
             height: `${height}px`,
           }}
-          className={`absolute top-0 left-0 origin-top-left`}
+          className="absolute top-0 left-0 origin-top-left"
         />
-      </motion.div>
+      </div>
 
-      <motion.div
-        animate={{
-          x: [0, -xOffset, 0],
-        }}
-        transition={{
-          duration,
-          repeat: Infinity,
-          repeatType: "reverse",
-          ease: "easeInOut",
-        }}
-        className="absolute top-0 right-0 w-full h-full pointer-events-none"
+      {/* Right Spotlight Beam */}
+      <div
+        className="absolute top-0 right-0 w-full h-full pointer-events-none animate-float transform-gpu"
+        style={{ animationDirection: "reverse", animationDuration: "7s" }}
       >
         <div
           style={{
@@ -103,7 +74,7 @@ export const Spotlight = ({
             width: `${width}px`,
             height: `${height}px`,
           }}
-          className={`absolute top-0 right-0`}
+          className="absolute top-0 right-0"
         />
 
         <div
@@ -113,7 +84,7 @@ export const Spotlight = ({
             width: `${smallWidth}px`,
             height: `${height}px`,
           }}
-          className={`absolute top-0 right-0 origin-top-right`}
+          className="absolute top-0 right-0 origin-top-right"
         />
 
         <div
@@ -123,9 +94,9 @@ export const Spotlight = ({
             width: `${smallWidth}px`,
             height: `${height}px`,
           }}
-          className={`absolute top-0 right-0 origin-top-right`}
+          className="absolute top-0 right-0 origin-top-right"
         />
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 };

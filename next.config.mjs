@@ -9,16 +9,17 @@ const nextConfig = {
   // Experimental optimisations
   experimental: {
     // Optimise CSS output
-    optimizeCss: false, // requires critters — skip unless installed
+    optimizeCss: false,
     // Optimise package imports for tree-shaking
     optimizePackageImports: [
       "framer-motion",
       "react-icons",
+      "@tabler/icons-react",
+      "lucide-react",
     ],
   },
 
   images: {
-    // Allow external image domains if needed in future
     formats: ["image/avif", "image/webp"],
   },
 };

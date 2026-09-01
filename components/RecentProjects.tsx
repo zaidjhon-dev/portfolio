@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaLocationArrow, FaCircleCheck } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
@@ -19,14 +20,14 @@ const projectDetails: Record<
   }
 > = {
   1: {
-    subtitle: "A modern and interactive web application",
+    subtitle: "A modern and interactive skincare verification portal",
     overview:
       "DermaSure PH functions as a secure discovery portal that will verify skincare products against the FDA Philippines database, protecting consumers from counterfeit items and harmful ingredients. The platform avoids direct sales, instead linking users directly to official distributors on Shopee or Lazada to ensure authenticity.",
     features: [
-      "Every product listed is carefully cross-checked against the FDA Philippines veirification portal to ensure authenticity and safety.",
-      "An interactive and optimized website built for solely for beauty enthusiasts and skincare lovers",
-      "Smooth and efficient animations with framer motion and tailwind css",
-      "Implemented proper security protocols and authentication and access control using supabase",
+      "Every product listed is carefully cross-checked against the FDA Philippines verification portal to ensure authenticity and safety.",
+      "An interactive and optimized website built solely for beauty enthusiasts and skincare lovers.",
+      "Smooth and efficient animations with Framer Motion and Tailwind CSS.",
+      "Implemented proper security protocols, authentication, and access control using Supabase.",
     ],
     techStack: [
       { name: "Next.js", icon: "/nextjs.svg" },
@@ -83,7 +84,7 @@ const RecentProjects = () => {
         A small selection of{" "}
         <span className="text-purple">recent projects</span>
       </h1>
-      <p className="text-white-200 text-center text-sm sm:text-base mt-3 max-w-xl mx-auto">
+      <p className="text-white-200 text-center text-xs sm:text-sm md:text-base mt-3 max-w-xl mx-auto px-4">
         Click any card to explore full project details, architectural highlights, and live demonstrations.
       </p>
 
@@ -105,7 +106,7 @@ const RecentProjects = () => {
         {active && (
           <div
             key="project-modal-container"
-            className="fixed inset-0 grid place-items-center z-[5001] p-4 sm:p-6 overflow-y-auto"
+            className="fixed inset-0 grid place-items-center z-[5001] p-3 sm:p-6 overflow-y-auto"
           >
             <motion.div
               ref={modalRef}
@@ -118,45 +119,47 @@ const RecentProjects = () => {
                 stiffness: 380,
                 mass: 0.7,
               }}
-              className="w-full max-w-2xl max-h-[90vh] flex flex-col bg-[#0b0c1e] border border-white/15 rounded-3xl overflow-hidden shadow-[0_16px_50px_0_rgba(0,0,0,0.8)] relative my-auto transform-gpu will-change-transform"
+              className="w-full max-w-2xl max-h-[88vh] sm:max-h-[90vh] flex flex-col bg-[#0b0c1e] border border-white/15 rounded-3xl overflow-hidden shadow-[0_16px_50px_0_rgba(0,0,0,0.8)] relative my-auto transform-gpu"
             >
               {/* Close Button */}
               <button
                 aria-label="Close project modal"
                 onClick={handleClose}
-                className="absolute top-4 right-4 z-50 p-2 rounded-full bg-black/70 hover:bg-black text-white/80 hover:text-white border border-white/15 backdrop-blur-md transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple/60"
+                className="absolute top-4 right-4 z-50 p-2.5 rounded-full bg-black/70 hover:bg-black text-white/80 hover:text-white border border-white/15 backdrop-blur-md transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple/60 min-h-[44px] min-w-[44px] flex items-center justify-center"
               >
                 <IoClose className="w-5 h-5" />
               </button>
 
               {/* Modal Banner Showcase */}
-              <div className="relative w-full h-52 sm:h-64 overflow-hidden bg-[#13162D] flex items-center justify-center flex-shrink-0">
-                <img
+              <div className="relative w-full h-44 sm:h-56 md:h-64 overflow-hidden bg-[#13162D] flex items-center justify-center flex-shrink-0">
+                <Image
                   src="/bg.png"
                   alt="background pattern"
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover opacity-60"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 672px"
+                  className="object-cover opacity-60"
                 />
-                <img
-                  src={active.img}
-                  alt={active.title}
-                  loading="lazy"
-                  decoding="async"
-                  className="z-10 absolute bottom-0 max-h-[85%] object-contain"
-                />
+                <div className="z-10 relative w-full h-full p-4 flex items-center justify-center">
+                  <Image
+                    src={active.img}
+                    alt={active.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 672px"
+                    className="object-contain p-2"
+                  />
+                </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0b0c1e] via-transparent to-transparent pointer-events-none" />
               </div>
 
               {/* Modal Body */}
-              <div className="p-6 sm:p-8 flex flex-col gap-6 overflow-y-auto [-ms-overflow-style:none] [scrollbar-width:thin]">
+              <div className="p-5 sm:p-7 md:p-8 flex flex-col gap-5 sm:gap-6 overflow-y-auto [-ms-overflow-style:none] [scrollbar-width:thin]">
                 {/* Header info & Action button */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/10">
                   <div className="space-y-1">
-                    <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                    <h2 className="text-lg sm:text-2xl font-bold text-white tracking-tight">
                       {active.title}
                     </h2>
-                    <p className="text-sm font-medium text-purple">
+                    <p className="text-xs sm:text-sm font-medium text-purple">
                       {projectDetails[active.id]?.subtitle ?? active.des}
                     </p>
                   </div>
@@ -165,7 +168,7 @@ const RecentProjects = () => {
                     href={formatLink(active.link)}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-purple hover:bg-purple/90 text-black font-semibold text-sm transition-all shadow-[0_0_20px_rgba(203,172,249,0.35)] active:scale-95 flex-shrink-0"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-purple hover:bg-purple/90 text-black font-semibold text-xs sm:text-sm transition-all shadow-[0_0_20px_rgba(203,172,249,0.35)] active:scale-95 flex-shrink-0 min-h-[44px]"
                   >
                     <span>Check Live Site</span>
                     <FaLocationArrow className="w-3 h-3" />
@@ -174,10 +177,10 @@ const RecentProjects = () => {
 
                 {/* Extended Overview */}
                 <div className="space-y-2">
-                  <h3 className="text-sm font-semibold uppercase tracking-wider text-neutral-300">
+                  <h3 className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-neutral-300">
                     Project Overview
                   </h3>
-                  <p className="text-white-200 text-sm sm:text-base leading-relaxed">
+                  <p className="text-white-200 text-xs sm:text-sm md:text-base leading-relaxed">
                     {projectDetails[active.id]?.overview ?? active.des}
                   </p>
                 </div>
@@ -185,7 +188,7 @@ const RecentProjects = () => {
                 {/* Key Features List */}
                 {projectDetails[active.id]?.features && (
                   <div className="space-y-2.5">
-                    <h3 className="text-sm font-semibold uppercase tracking-wider text-neutral-300">
+                    <h3 className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-neutral-300">
                       Key Highlights &amp; Features
                     </h3>
                     <ul className="space-y-2">
@@ -204,7 +207,7 @@ const RecentProjects = () => {
 
                 {/* Tech Stack Badges */}
                 <div className="space-y-2.5 pt-2">
-                  <h3 className="text-sm font-semibold uppercase tracking-wider text-neutral-300">
+                  <h3 className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-neutral-300">
                     Technologies Used
                   </h3>
                   <div className="flex flex-wrap gap-2">
@@ -214,13 +217,15 @@ const RecentProjects = () => {
                           key={idx}
                           className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black-200/90 border border-white/10 text-xs font-medium text-white-100"
                         >
-                          <img
-                            src={tech.icon}
-                            alt={tech.name}
-                            loading="lazy"
-                            decoding="async"
-                            className="w-4 h-4 object-contain"
-                          />
+                          <div className="relative w-4 h-4 flex-shrink-0">
+                            <Image
+                              src={tech.icon}
+                              alt={tech.name}
+                              fill
+                              sizes="16px"
+                              className="object-contain"
+                            />
+                          </div>
                           <span>{tech.name}</span>
                         </div>
                       ))
@@ -230,13 +235,15 @@ const RecentProjects = () => {
                           key={idx}
                           className="p-2 rounded-full bg-black-200 border border-white/10"
                         >
-                          <img
-                            src={icon}
-                            alt="tech icon"
-                            loading="lazy"
-                            decoding="async"
-                            className="w-4 h-4 object-contain"
-                          />
+                          <div className="relative w-4 h-4 flex-shrink-0">
+                            <Image
+                              src={icon}
+                              alt="tech icon"
+                              fill
+                              sizes="16px"
+                              className="object-contain"
+                            />
+                          </div>
                         </div>
                       ))
                     )}
@@ -249,19 +256,19 @@ const RecentProjects = () => {
       </AnimatePresence>
 
       {/* ─── Projects Grid ──────────────────────────────────────────────── */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 max-w-6xl mx-auto mt-12 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 max-w-6xl mx-auto mt-10 sm:mt-12 w-full">
         {projects.map((item) => (
           <motion.div
             key={item.id}
             onClick={() => setActive(item)}
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.1 }}
-            transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
+            viewport={{ once: true, margin: "150px 0px 0px 0px" }}
+            transition={{ duration: 0.35, ease: [0.25, 1, 0.5, 1] }}
             whileHover={{ y: -4, transition: { duration: 0.2 } }}
             whileTap={{ scale: 0.98 }}
             className={cn(
-              "group relative flex flex-col justify-between rounded-3xl p-5 sm:p-6",
+              "group relative flex flex-col justify-between rounded-3xl p-4 sm:p-6",
               "bg-[#0c0e23]/90 backdrop-blur-lg border border-white/10 hover:border-purple/50",
               "shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] hover:shadow-[0_12px_40px_0_rgba(203,172,249,0.18)]",
               "cursor-pointer transition-colors duration-200 overflow-hidden transform-gpu"
@@ -272,27 +279,29 @@ const RecentProjects = () => {
 
             <div className="space-y-4 relative z-10">
               {/* Image banner */}
-              <div className="relative w-full h-48 sm:h-60 rounded-2xl overflow-hidden bg-[#13162D] flex items-center justify-center">
-                <img
+              <div className="relative w-full h-44 sm:h-56 md:h-60 rounded-2xl overflow-hidden bg-[#13162D] flex items-center justify-center">
+                <Image
                   src="/bg.png"
                   alt="background pattern"
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-500 will-change-transform"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 550px"
+                  className="object-cover opacity-60 group-hover:scale-105 transition-transform duration-500 will-change-transform"
                 />
-                <img
-                  src={item.img}
-                  alt={item.title}
-                  loading="lazy"
-                  decoding="async"
-                  className="z-10 absolute bottom-0 max-h-[85%] object-contain group-hover:scale-105 transition-transform duration-500 will-change-transform"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black-100/60 via-transparent to-transparent" />
+                <div className="z-10 relative w-full h-full p-4 flex items-center justify-center">
+                  <Image
+                    src={item.img}
+                    alt={item.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 550px"
+                    className="object-contain group-hover:scale-105 transition-transform duration-500 will-change-transform p-2"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black-100/60 via-transparent to-transparent pointer-events-none" />
               </div>
 
               {/* Title & Short Description */}
               <div className="space-y-1.5">
-                <h3 className="font-bold text-lg sm:text-xl text-white group-hover:text-purple transition-colors line-clamp-1">
+                <h3 className="font-bold text-base sm:text-lg lg:text-xl text-white group-hover:text-purple transition-colors line-clamp-1">
                   {item.title}
                 </h3>
 
@@ -303,24 +312,26 @@ const RecentProjects = () => {
             </div>
 
             {/* Bottom Card Footer: Tech Stack & Expand CTA */}
-            <div className="flex items-center justify-between mt-6 pt-4 border-t border-white/10 relative z-10">
+            <div className="flex items-center justify-between mt-5 sm:mt-6 pt-4 border-t border-white/10 relative z-10">
               {/* Tech Stack icon badges */}
               <div className="flex items-center">
                 {item.iconLists.map((icon, index) => (
                   <div
                     key={index}
-                    className="border border-white/20 rounded-full bg-black/90 w-8 h-8 sm:w-9 sm:h-9 flex justify-center items-center"
+                    className="border border-white/20 rounded-full bg-black/90 w-7 h-7 sm:w-9 sm:h-9 flex justify-center items-center overflow-hidden"
                     style={{
                       transform: `translateX(-${6 * index}px)`,
                     }}
                   >
-                    <img
-                      src={icon}
-                      alt="tech icon"
-                      loading="lazy"
-                      decoding="async"
-                      className="p-1.5 w-full h-full object-contain"
-                    />
+                    <div className="relative w-4 h-4 sm:w-5 sm:h-5">
+                      <Image
+                        src={icon}
+                        alt="tech icon"
+                        fill
+                        sizes="20px"
+                        className="object-contain p-0.5"
+                      />
+                    </div>
                   </div>
                 ))}
               </div>

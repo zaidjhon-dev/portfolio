@@ -1,9 +1,7 @@
 "use client";
-
 import React from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { FaLocationArrow } from "react-icons/fa6";
-
 import { socialMedia } from "@/data";
 import MagicButton from "./MagicButton";
 
@@ -11,20 +9,22 @@ const Footer = () => {
   return (
     <footer className="relative w-full pt-20 pb-10 scroll-mt-24 overflow-hidden" id="contact">
       {/* background grid */}
-      <div className="w-full absolute left-0 -bottom-72 min-h-96">
-        <img
-          src="/footer-grid.svg"
-          alt="grid"
-          loading="lazy"
-          decoding="async"
-          className="w-full h-full opacity-50 "
-        />
+      <div className="w-full absolute left-0 -bottom-72 min-h-96 pointer-events-none">
+        <div className="relative w-full h-96">
+          <Image
+            src="/footer-grid.svg"
+            alt="grid"
+            fill
+            sizes="100vw"
+            className="object-cover opacity-50"
+          />
+        </div>
       </div>
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: "150px 0px 0px 0px" }}
         transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
         className="flex flex-col items-center"
       >
@@ -37,17 +37,17 @@ const Footer = () => {
           achieve your goals.
         </p>
         <a href="mailto:zaidjhon19@gmail.com">
-          <MagicButton
-            title="Let's get in touch"
-            position="right"
-          />
+              <MagicButton
+              title="Let's get in touch"
+              position="right"
+              />
         </a>
       </motion.div>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: "150px 0px 0px 0px" }}
         transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1], delay: 0.2 }}
         className="flex mt-16 md:flex-row flex-col justify-between items-center gap-4"
       >
