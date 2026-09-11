@@ -2,6 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { FaLocationArrow } from "react-icons/fa6";
 import { socialMedia } from "@/data";
 import MagicButton from "./MagicButton";
 
@@ -37,10 +38,11 @@ const Footer = () => {
           achieve your goals.
         </p>
         <a href="mailto:zaidjhon19@gmail.com">
-              <MagicButton
-              title="Let's get in touch"
-              position="right"
-              />
+          <MagicButton
+            title="Let's get in touch"
+            icon={<FaLocationArrow className="w-3.5 h-3.5" />}
+            position="right"
+          />
         </a>
       </motion.div>
 

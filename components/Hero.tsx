@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { FaLocationArrow } from "react-icons/fa6";
 import { Spotlight } from "./ui/Spotlight";
 import { TextGenerateEffect } from "./ui/TextGenerateEffect";
 import CardSpotlight from "./ui/CardSpotlight";
@@ -65,8 +66,9 @@ const Hero = () => {
               className="w-full sm:w-auto block"
             >
               <MagicButton
-              title="Know more about me"
-              position="right"
+                title="Know more about me"
+                icon={<FaLocationArrow className="w-3.5 h-3.5" />}
+                position="right"
               />
             </a>
           </div>
