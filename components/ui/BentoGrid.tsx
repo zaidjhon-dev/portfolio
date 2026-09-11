@@ -11,8 +11,8 @@ import {
   IoChevronBackOutline,
   IoChevronForwardOutline,
 } from "react-icons/io5";
-import { FaLocationArrow } from "react-icons/fa6";
-import { certificates } from "@/data";
+import { FaLocationArrow, FaArrowUpRightFromSquare } from "react-icons/fa6";
+import { certificates, educationInfo, activeExplorations } from "@/data";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 
 import GridGlobe from "./GridGlobe";
@@ -87,29 +87,122 @@ const TechStackCardContent = () => {
 /* ─── Subcomponent: Card 4 Education Details ────────────────────────────── */
 const EducationCardContent = () => {
   return (
-    <div className="flex-1 flex flex-col items-center justify-center gap-3 py-2 sm:py-3 z-10">
-      {/* Icon */}
-      <div className="p-3 sm:p-3.5 rounded-2xl bg-purple/15 border border-purple/30">
-        <IoSchoolOutline className="w-5 h-5 sm:w-6 sm:h-6 text-purple" />
+    <div className="flex-1 flex flex-col justify-between items-start gap-3.5 sm:gap-4 py-2 sm:py-3 z-10 w-full">
+      {/* School & Period Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 w-full">
+        <div>
+          <span className="text-[10px] sm:text-xs uppercase tracking-wider text-purple font-semibold block">
+            Academic Institution
+          </span>
+          <h3 className="text-sm sm:text-base font-bold text-white leading-snug mt-0.5">
+            {educationInfo.institution}
+          </h3>
+        </div>
+        <span className="self-start sm:self-auto px-2.5 py-1 rounded-md bg-[#10132E] border border-white/10 text-[11px] font-mono text-neutral-300">
+          {educationInfo.period}
+        </span>
       </div>
 
-      {/* School & Year */}
-      <div className="flex flex-col items-center gap-1 text-center">
-        <span className="text-[10px] sm:text-[11px] uppercase tracking-widest text-purple font-semibold">
-          2022 – 2026
+      {/* Core Coursework Section */}
+      <div className="w-full space-y-2">
+        <span className="text-[10px] sm:text-[11px] uppercase tracking-wider text-neutral-400 font-semibold block">
+          Core Coursework
         </span>
-        <p className="text-xs sm:text-sm font-semibold text-white/90 leading-snug max-w-[220px]">
-          Asian College of Science and Technology
+        <div className="flex flex-wrap gap-1.5 sm:gap-2">
+          {educationInfo.coursework.map((course, idx) => (
+            <span
+              key={idx}
+              className="px-2.5 py-1 text-[11px] sm:text-xs font-medium rounded-lg bg-[#10132E] border border-white/10 text-white/90 hover:border-purple/40 hover:text-white transition-colors select-none"
+            >
+              {course}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Senior Capstone Teaser */}
+      <div className="w-full p-3 sm:p-3.5 rounded-2xl bg-[#0b0d21] border border-purple/20 relative overflow-hidden group">
+        <div className="flex items-center justify-between gap-2 mb-1">
+          <span className="text-[10px] sm:text-[11px] font-semibold text-purple uppercase tracking-wider flex items-center gap-1.5">
+            <IoRibbonOutline className="w-3.5 h-3.5" />
+            {educationInfo.capstone.tag}
+          </span>
+          <span className="text-[9px] sm:text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-purple/10 text-purple border border-purple/20">
+            Upcoming Project
+          </span>
+        </div>
+        <h4 className="text-xs sm:text-sm font-bold text-white leading-snug">
+          {educationInfo.capstone.title}
+        </h4>
+        <p className="text-[11px] sm:text-xs text-neutral-400 mt-1 leading-relaxed">
+          {educationInfo.capstone.note}
         </p>
       </div>
+    </div>
+  );
+};
 
-      {/* Divider */}
-      <div className="w-10 h-px bg-white/10" />
+/* ─── Subcomponent: Card 5 Currently Learning / Exploring Terminal ───────── */
+const TerminalExplorationsContent = () => {
+  return (
+    <div className="mt-3 sm:mt-4 z-10 w-full flex-1 flex flex-col justify-between">
+      {/* IDE Terminal Window */}
+      <div className="rounded-2xl bg-[#090b1c] border border-white/10 overflow-hidden shadow-xl flex flex-col flex-1">
+        {/* Terminal Title Bar */}
+        <div className="flex items-center justify-between px-3.5 py-2.5 bg-[#0e1128] border-b border-white/10">
+          <div className="flex items-center gap-1.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
+          </div>
+          <div className="flex items-center gap-1.5 text-[11px] font-mono text-neutral-400">
+            <span className="text-purple font-semibold">TS</span>
+            <span>explorations.config.ts</span>
+          </div>
+          <div className="flex items-center gap-1 text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span>Active Lab</span>
+          </div>
+        </div>
 
-      {/* Specialization */}
-      <p className="text-[11px] sm:text-xs text-neutral-400 font-light leading-relaxed text-center max-w-[240px]">
-        Specialized in software development, web architecture, and modern computer systems.
-      </p>
+        {/* Code Content */}
+        <div className="p-3 sm:p-4 font-mono text-[11px] sm:text-xs leading-relaxed space-y-1.5 overflow-x-auto select-none">
+          <div className="text-neutral-500">
+            <span className="text-neutral-600 mr-2">1</span>
+            <span className="text-neutral-400">&#47;&#47; Active R&amp;D &amp; Next-Gen Tech Stack</span>
+          </div>
+          <div>
+            <span className="text-neutral-600 mr-2">2</span>
+            <span className="text-purple font-semibold">export const </span>
+            <span className="text-white">currentFocus</span>
+            <span className="text-purple"> = </span>
+            <span className="text-white">&#123;</span>
+          </div>
+          {activeExplorations.map((item, idx) => (
+            <div key={item.key} className="pl-4">
+              <span className="text-neutral-600 mr-2">{idx + 3}</span>
+              <span className="text-sky-300 font-medium">{item.key}</span>
+              <span className="text-white">: </span>
+              <span className="text-emerald-300">&quot;{item.tech}&quot;</span>
+              <span className="text-white">, </span>
+              <span className="text-neutral-500 hidden sm:inline">&#47;&#47; {item.label}</span>
+            </div>
+          ))}
+          <div>
+            <span className="text-neutral-600 mr-2">{activeExplorations.length + 3}</span>
+            <span className="text-white">&#125;;</span>
+          </div>
+        </div>
+
+        {/* Terminal Bottom Status Bar */}
+        <div className="px-3.5 py-2 bg-[#0a0d21] border-t border-white/5 flex items-center justify-between text-[10px] font-mono text-neutral-400">
+          <div className="flex items-center gap-1.5">
+            <span className="text-purple font-bold">&gt;</span>
+            <span className="truncate">Watching repository • Ready for integration</span>
+          </div>
+          <span className="text-neutral-500 hidden sm:inline">TypeScript 5.x</span>
+        </div>
+      </div>
     </div>
   );
 };
@@ -146,21 +239,11 @@ const CertificateCardContent = () => {
 
   useOutsideClick(modalRef, handleCloseCert);
 
-  const nextCert = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setCertIndex((prev) => (prev + 1) % certificates.length);
-  };
-
-  const prevCert = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setCertIndex((prev) => (prev - 1 + certificates.length) % certificates.length);
-  };
-
   const current = certificates[certIndex];
 
   return (
     <>
-      {/* ─── Expandable Certificate Modal ───────────────────────────────── */}
+      {/* ─── Expandable Certificate Modal (Harmonious Theme) ─────────────── */}
       <AnimatePresence initial={false}>
         {activeCert && (
           <motion.div
@@ -204,13 +287,13 @@ const CertificateCardContent = () => {
 
               {/* Certificate Image Banner */}
               {activeCert.image && (
-                <div className="relative w-full h-36 sm:h-52 rounded-2xl overflow-hidden bg-[#13162D] border border-white/10 flex items-center justify-center flex-shrink-0 mb-4">
+                <div className="relative w-full h-40 sm:h-56 rounded-2xl overflow-hidden bg-[#13162D] border border-white/10 flex items-center justify-center flex-shrink-0 mb-4">
                   <Image
                     src="/bg.png"
                     alt="background pattern"
                     fill
                     sizes="(max-width: 640px) 100vw, 500px"
-                    className="object-cover opacity-40"
+                    className="object-cover opacity-30"
                   />
                   <div className="z-10 relative w-full h-full p-3">
                     <Image
@@ -268,7 +351,8 @@ const CertificateCardContent = () => {
               </div>
 
               {/* Action Button */}
-              <div className="mt-5 sm:mt-6 pt-4 border-t border-white/10 flex justify-end">
+              <div className="mt-5 sm:mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
+                <span className="text-[11px] text-neutral-400">Statement of Accomplishment</span>
                 <a
                   href={activeCert.credentialUrl}
                   target="_blank"
@@ -276,7 +360,7 @@ const CertificateCardContent = () => {
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-purple hover:bg-purple/90 text-black font-semibold text-xs sm:text-sm transition-all shadow-[0_0_20px_rgba(203,172,249,0.35)] active:scale-95 min-h-[44px]"
                 >
                   <span>Verify Credential</span>
-                  <FaLocationArrow className="w-3 h-3" />
+                  <FaArrowUpRightFromSquare className="w-3 h-3" />
                 </a>
               </div>
             </motion.div>
@@ -284,85 +368,91 @@ const CertificateCardContent = () => {
         )}
       </AnimatePresence>
 
-      {/* ─── In-Card Certificate Showcase Preview ───────────────────────── */}
-      <div className="mt-3 sm:mt-4 z-10 w-full">
-        <div
-          onClick={() => setActiveCert(current)}
-          className="group/cert relative flex flex-col justify-between p-3 sm:p-4 rounded-2xl bg-[#0c0e23]/95 border border-white/10 hover:border-purple/50 shadow-lg cursor-pointer transition-all duration-300 active:scale-[0.98]"
-        >
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2 sm:gap-2.5">
-              <div className="p-2 rounded-xl bg-purple/15 text-purple border border-purple/30 flex-shrink-0">
-                <IoRibbonOutline className="w-4 h-4" />
-              </div>
-              <div className="min-w-0">
-                <span className="text-[10px] font-semibold text-purple uppercase tracking-wider block truncate">
+      {/* ─── In-Card Certificate Showcase Preview with Tabbed Peek View ─── */}
+      <div className="mt-3 sm:mt-4 z-10 w-full flex-1 flex flex-col justify-between">
+        {/* Tabbed / Multi-Card Peek View Switcher */}
+        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#080a1c] border border-white/10 mb-3 w-full">
+          {certificates.map((cert, idx) => {
+            const isSelected = certIndex === idx;
+            return (
+              <button
+                key={cert.id}
+                onClick={() => setCertIndex(idx)}
+                className={cn(
+                  "relative flex-1 py-1.5 px-2 rounded-lg text-[11px] font-medium transition-all text-center truncate",
+                  isSelected
+                    ? "text-white"
+                    : "text-neutral-400 hover:text-white hover:bg-white/[0.04]"
+                )}
+              >
+                {isSelected && (
+                  <motion.div
+                    layoutId="activeCertTab"
+                    className="absolute inset-0 rounded-lg bg-purple/20 border border-purple/40 shadow-sm"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
+                <span className="relative z-10">{cert.issuer}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Selected Certificate Interactive Peek Card */}
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-[#0c0e23]/95 border border-white/10 hover:border-purple/40 transition-all flex flex-col justify-between flex-1">
+          <div className="space-y-2">
+            <div className="flex items-start justify-between gap-2">
+              <div>
+                <span className="text-[10px] sm:text-[11px] font-semibold text-purple uppercase tracking-wider block">
                   {current.issuer} • {current.date}
                 </span>
-                <h4 className="text-xs sm:text-sm font-bold text-white group-hover/cert:text-purple transition-colors line-clamp-1">
+                <h4 className="text-xs sm:text-sm font-bold text-white mt-0.5 line-clamp-1">
                   {current.title}
                 </h4>
               </div>
+              <div className="p-1.5 rounded-lg bg-purple/15 text-purple border border-purple/30 flex-shrink-0">
+                <IoRibbonOutline className="w-4 h-4" />
+              </div>
             </div>
 
-            <div className="flex items-center gap-1 text-[11px] text-purple font-medium flex-shrink-0">
-              <span>Expand</span>
-              <FaLocationArrow className="w-2.5 h-2.5" />
+            <p className="text-[11px] sm:text-xs text-neutral-300 line-clamp-2 leading-relaxed">
+              {current.description}
+            </p>
+
+            {/* Skills preview tags */}
+            <div className="flex flex-wrap items-center gap-1.5 pt-1">
+              {current.skills.map((skill, idx) => (
+                <span
+                  key={idx}
+                  className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-[#10132E] border border-white/10 text-neutral-300"
+                >
+                  {skill}
+                </span>
+              ))}
             </div>
           </div>
 
-          {/* Skills preview tags */}
-          <div className="flex items-center gap-1.5 mt-2 sm:mt-2.5 overflow-hidden">
-            {current.skills.slice(0, 3).map((skill, idx) => (
-              <span
-                key={idx}
-                className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-[#10132E] border border-white/10 text-neutral-300"
-              >
-                {skill}
-              </span>
-            ))}
-            {current.skills.length > 3 && (
-              <span className="text-[10px] text-neutral-400">
-                +{current.skills.length - 3}
-              </span>
-            )}
-          </div>
-        </div>
-
-        {/* Pagination & Controls */}
-        <div className="flex items-center justify-between mt-2.5 px-1">
-          <div className="flex items-center gap-1.5">
-            {certificates.map((_, idx) => (
-              <button
-                key={idx}
-                aria-label={`Go to certificate ${idx + 1}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setCertIndex(idx);
-                }}
-                className={cn(
-                  "h-1.5 rounded-full transition-all duration-300 min-h-[12px] min-w-[12px] flex items-center justify-center",
-                  certIndex === idx ? "w-4 bg-purple" : "w-1.5 bg-white/20 hover:bg-white/40"
-                )}
-              />
-            ))}
-          </div>
-
-          <div className="flex items-center gap-1">
+          {/* Action Row: Direct Credential Badging + Overview Modal Trigger */}
+          <div className="flex items-center justify-between pt-3 mt-3 border-t border-white/10 gap-2">
             <button
-              aria-label="Previous certificate"
-              onClick={prevCert}
-              className="p-1.5 rounded-full bg-black/60 hover:bg-black/90 border border-white/10 text-white/70 hover:text-white transition-all active:scale-95 min-h-[32px] min-w-[32px] flex items-center justify-center"
+              onClick={() => setActiveCert(current)}
+              className="inline-flex items-center gap-1.5 text-[11px] font-medium text-neutral-300 hover:text-white transition-colors"
             >
-              <IoChevronBackOutline className="w-3.5 h-3.5" />
+              <span>View Details</span>
+              <FaLocationArrow className="w-2.5 h-2.5 text-purple" />
             </button>
-            <button
-              aria-label="Next certificate"
-              onClick={nextCert}
-              className="p-1.5 rounded-full bg-black/60 hover:bg-black/90 border border-white/10 text-white/70 hover:text-white transition-all active:scale-95 min-h-[32px] min-w-[32px] flex items-center justify-center"
+
+            {/* Direct Credential Badging */}
+            <a
+              href={current.credentialUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Verify ${current.title} credential directly`}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple/15 hover:bg-purple/25 text-purple hover:text-white border border-purple/30 text-[11px] font-semibold transition-all active:scale-95"
             >
-              <IoChevronForwardOutline className="w-3.5 h-3.5" />
-            </button>
+              <span>Verify</span>
+              <FaArrowUpRightFromSquare className="w-2.5 h-2.5" />
+            </a>
           </div>
         </div>
       </div>
@@ -502,6 +592,7 @@ export const BentoGridItem = ({
               {/* Conditional Subcomponents by ID */}
               {id === 2 && <GridGlobe />}
               {id === 3 && <TechStackCardContent />}
+              {id === 5 && <TerminalExplorationsContent />}
               {id === 6 && <CertificateCardContent />}
             </>
           )}

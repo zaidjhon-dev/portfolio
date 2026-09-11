@@ -39,19 +39,19 @@ export const gridItems = [
   },
   {
     id: 5,
-    title: "Currently building DermaSure PH",
-    description: "A work in progress",
-    className: "lg:col-span-3 lg:row-span-2 md:col-span-6 md:row-span-2 min-h-[280px] sm:min-h-[300px] lg:min-h-[320px]",
-    imgClassName: "absolute right-0 bottom-0 md:w-96 w-60",
-    titleClassName: "justify-center md:justify-start lg:justify-center",
-    img: "/b5.svg",
+    title: "Currently Exploring & Experimenting",
+    description: "Continuous Evolution",
+    className: "lg:col-span-3 lg:row-span-2 md:col-span-6 min-h-[320px] sm:min-h-[350px]",
+    imgClassName: "",
+    titleClassName: "justify-start",
+    img: "",
     spareImg: "/grid.svg",
   },
   {
     id: 4,
     title: "Bachelor of Science in Information Technology",
-    description: "Education",
-    className: "lg:col-span-3 lg:row-span-1 md:col-span-3 md:row-span-1 min-h-[160px] sm:min-h-[180px]",
+    description: "Education & Foundation",
+    className: "lg:col-span-3 lg:row-span-2 md:col-span-6 min-h-[340px] sm:min-h-[360px]",
     imgClassName: "",
     titleClassName: "justify-start",
     img: "/grid.svg",
@@ -59,13 +59,50 @@ export const gridItems = [
   },
   {
     id: 6,
-    title: "Certifications & Professional Credentials",
+    title: "Certifications & Credentials",
     description: "Verified Achievements",
-    className: "lg:col-span-2 lg:row-span-1 md:col-span-3 md:row-span-1 min-h-[160px] sm:min-h-[180px]",
+    className: "lg:col-span-2 lg:row-span-2 md:col-span-6 min-h-[340px] sm:min-h-[360px]",
     imgClassName: "",
     titleClassName: "justify-start",
     img: "",
     spareImg: "",
+  },
+];
+
+export const educationInfo = {
+  degree: "Bachelor of Science in Information Technology",
+  institution: "Asian College of Science and Technology (ACSAT)",
+  period: "2022 – 2026",
+  coursework: [
+    "Data Structures & Algorithms",
+    "Software Engineering",
+    "Systems Administration",
+    "Computer Networking",
+    "Object Oriented Programming",
+    "Web Designing",
+  ],
+  capstone: {
+    tag: "Senior Capstone Focus",
+    title: "Asian College Room Scheduling System (ACRSS)",
+    note: "Comprehensive room management & schedule automation portal",
+  },
+};
+
+export const activeExplorations = [
+  {
+    key: "framework",
+    tech: "Next.js 15",
+    label: "Turbopack, Server Actions & React 19",
+  },
+  {
+    key: "intelligence",
+    tech: "AI Agents",
+    label: "Tool Calling, Automation & RAG Systems",
+  },
+  {
+    key: "backend",
+    tech: "Supabase",
+    label: "Edge Functions, Auth & Vector Embeddings",
   },
 ];
 
