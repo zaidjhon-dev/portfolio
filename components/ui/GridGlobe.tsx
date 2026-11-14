@@ -7,7 +7,6 @@ import { IoGlobeOutline, IoTimeOutline } from "react-icons/io5";
 interface HubLocation {
   id: string;
   name: string;
-  country: string;
   tz: string;
   offsetHours: number;
   cx: number; // SVG coordinate x (0-800)
@@ -19,7 +18,6 @@ const GLOBAL_HUBS: HubLocation[] = [
   {
     id: "mnl",
     name: "Manila",
-    country: "Philippines",
     tz: "PHT (UTC+8)",
     offsetHours: 8,
     cx: 630,
@@ -29,7 +27,6 @@ const GLOBAL_HUBS: HubLocation[] = [
   {
     id: "sfo",
     name: "San Francisco",
-    country: "United States",
     tz: "PST (UTC-7)",
     offsetHours: -7,
     cx: 175,
@@ -38,7 +35,6 @@ const GLOBAL_HUBS: HubLocation[] = [
   {
     id: "nyc",
     name: "New York",
-    country: "United States",
     tz: "EST (UTC-4)",
     offsetHours: -4,
     cx: 260,
@@ -47,7 +43,6 @@ const GLOBAL_HUBS: HubLocation[] = [
   {
     id: "lon",
     name: "London",
-    country: "United Kingdom",
     tz: "BST (UTC+1)",
     offsetHours: 1,
     cx: 410,
@@ -56,7 +51,6 @@ const GLOBAL_HUBS: HubLocation[] = [
   {
     id: "tyo",
     name: "Tokyo",
-    country: "Japan",
     tz: "JST (UTC+9)",
     offsetHours: 9,
     cx: 685,
@@ -65,7 +59,6 @@ const GLOBAL_HUBS: HubLocation[] = [
   {
     id: "syd",
     name: "Sydney",
-    country: "Australia",
     tz: "AEST (UTC+10)",
     offsetHours: 10,
     cx: 710,

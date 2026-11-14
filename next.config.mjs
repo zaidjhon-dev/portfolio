@@ -14,8 +14,6 @@ const nextConfig = {
     optimizePackageImports: [
       "framer-motion",
       "react-icons",
-      "@tabler/icons-react",
-      "lucide-react",
     ],
   },
 

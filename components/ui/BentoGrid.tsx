@@ -1,15 +1,12 @@
 "use client";
+
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import {
-  IoSchoolOutline,
   IoRibbonOutline,
   IoClose,
-  IoChevronBackOutline,
-  IoChevronForwardOutline,
 } from "react-icons/io5";
 import { FaLocationArrow, FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { certificates, educationInfo, activeExplorations } from "@/data";

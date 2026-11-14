@@ -158,14 +158,12 @@ export const workExperience = [
     id: 1,
     title: "Social Media Manager - Intern",
     desc: "Managed and executed social media content for Manulife Philippines, boosting platform engagement and user interaction.",
-    className: "md:col-span-2",
     thumbnail: "/exp2.svg",
   },
   {
     id: 2,
     title: "English Customer Service Representative",
     desc: "Handled inbound calls and resolved customer inquiries, food delivery, order modifications, and cancellations for a US-based food ordering company.",
-    className: "md:col-span-2",
     thumbnail: "/exp1.svg",
   },
 ];
