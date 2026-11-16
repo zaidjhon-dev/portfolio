@@ -26,30 +26,23 @@ const config = {
     },
     extend: {
       screens: {
-        // Custom nav breakpoint: pill navbar shows at 960px+, hamburger below
         nav: "960px",
       },
       fontFamily: {
         sans: ["var(--font-geist-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
-        heading: ["var(--font-space-grotesk)", "ui-sans-serif", "system-ui", "sans-serif"],
-        space: ["var(--font-space-grotesk)", "ui-sans-serif", "system-ui", "sans-serif"],
+        heading: ["var(--font-geist-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
       },
       colors: {
-        black: {
-          DEFAULT: "#000",
-          100: "#000319",
-          200: "rgba(17, 25, 40, 0.75)",
-          300: "rgba(255, 255, 255, 0.125)",
+        page: "#F8F8F6",
+        surface: {
+          DEFAULT: "#FFFFFF",
+          raised: "#F2F2EF",
         },
-        white: {
-          DEFAULT: "#FFF",
-          100: "#BEC1DD",
-          200: "#C1C2D3",
+        brandText: {
+          DEFAULT: "#0D0D0D",
+          muted: "#525250",
+          subtle: "#737370",
         },
-        blue: {
-          "100": "#E4ECFF",
-        },
-        purple: "#CBACF9",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

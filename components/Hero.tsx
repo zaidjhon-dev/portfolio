@@ -1,116 +1,134 @@
 "use client";
 
-import Image from "next/image";
-import { FaLocationArrow } from "react-icons/fa6";
-import { Spotlight } from "./ui/Spotlight";
-import { TextGenerateEffect } from "./ui/TextGenerateEffect";
-import CardSpotlight from "./ui/CardSpotlight";
-import MagicButton from "./MagicButton";
+import React from "react";
+import dynamic from "next/dynamic";
+import { motion } from "framer-motion";
+import { ArrowRight } from "@phosphor-icons/react";
+import { heroData } from "@/data";
+import ProfileCardMobile from "@/components/ui/ProfileCardMobile";
+
+const baseEase = [0.22, 1, 0.36, 1] as const;
+
+// Dynamically import Three.js Lanyard badge with SSR disabled (desktop only >= 1024px)
+const Lanyard = dynamic(() => import("@/components/ui/Lanyard"), {
+  ssr: false,
+});
 
 const Hero = () => {
+  const [isDesktop, setIsDesktop] = React.useState(false);
+
+  React.useEffect(() => {
+    const media = window.matchMedia("(min-width: 1024px)");
+    setIsDesktop(media.matches);
+    const listener = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    media.addEventListener("change", listener);
+    return () => media.removeEventListener("change", listener);
+  }, []);
+
   return (
     <section
       id="home"
-      className="relative w-full min-h-[90vh] lg:min-h-screen flex flex-col justify-center items-center scroll-mt-0 overflow-hidden"
+      aria-label="Introduction"
+      className="relative w-full min-h-[600px] sm:min-h-[660px] lg:min-h-[720px] pt-16 sm:pt-20 lg:pt-36 pb-16 sm:pb-20 border-b border-[#E5E5E2] overflow-hidden flex flex-col lg:flex-row lg:items-center bg-[#F8F8F6]"
     >
-      {/**
-       *  UI: Full-Bleed Background Layer (Grid Pattern + Animated Dual Spotlight)
-       *  Spans 100% edge-to-edge of the viewport
-       */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0 overflow-hidden">
-        {/* Full-width Grid background with radial spotlight mask & smooth bottom fade */}
-        <div className="absolute inset-0 w-full h-full bg-black-100 bg-grid-white/[0.03] flex items-center justify-center">
-          {/* Radial gradient mask for center depth */}
-          <div className="absolute inset-0 bg-black-100 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
-          {/* Bottom fade into the next section */}
-          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black-100 via-black-100/70 to-transparent" />
-        </div>
-
-        {/* Animated dual-beam ambient spotlight */}
-        <Spotlight />
+      {/* ── Desktop Only (>= 1024px): 3D Lanyard Full-Bleed Interactive Canvas ── */}
+      <div className="hidden lg:block absolute inset-0 z-0 pointer-events-auto overflow-hidden">
+        {isDesktop && (
+          <Lanyard
+            frontImage="/profile.webp"
+            backImage="/profile.webp"
+            cardColor="#FFFFFF"
+            strapColor="#181818"
+            orientation="portrait"
+            finish="glossy"
+            cornerRadius={0.25}
+            size={0.68}
+            anchor="right"
+            strapLength={0.42}
+            strapWidth={0.65}
+            metal="silver"
+            gravity={1.2}
+            damping={0.52}
+            elasticity={0.38}
+            breeze={0.2}
+            interactive={true}
+            intro={true}
+            className="w-full h-full"
+          />
+        )}
       </div>
 
-      {/**
-       *  Hero Content Container with Responsive Portrait Space
-       *  Centered within max-w-7xl with standard responsive padding
-       */}
-      <div className="relative z-10 w-full max-w-7xl sm:px-10 px-5 pt-24 sm:pt-28 md:pt-32 pb-16 flex flex-col-reverse lg:flex-row items-center justify-between gap-8 sm:gap-10 lg:gap-14 my-auto">
-        {/* Left Column: Intro text and Call to Action */}
-        <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left max-w-2xl lg:max-w-none">
-
-          {/**
-           *  Headline with Text Generate Effect (Fluid typography)
-           */}
-          <TextGenerateEffect
-            words="Learning, designing, and coding for the modern web."
-            className="font-heading text-2xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold leading-tight tracking-tight"
-          />
-
-          {/* Subtitle / Bio */}
-          <p className="text-white-200 text-sm sm:text-base md:text-lg lg:text-xl font-normal leading-relaxed my-4 max-w-xl">
-            Hi! I&apos;m <span className="text-purple font-semibold">Jhon</span>, an aspiring web developer based in the Philippines passionate about crafting interactive, modern web experiences.
-          </p>
-
-          {/* Call to Action Button */}
-          <div className="mt-4 sm:mt-6 w-full sm:w-auto flex justify-center lg:justify-start">
-            <a
-              href="#about"
-              onClick={(e) => {
-                e.preventDefault();
-                const el = document.getElementById("about");
-                if (el) {
-                  el.scrollIntoView({ behavior: "smooth" });
-                  window.history.replaceState(null, "", "#about");
-                }
-              }}
-              className="w-full sm:w-auto block"
-            >
-              <MagicButton
-                title="Know more about me"
-                icon={<FaLocationArrow className="w-3.5 h-3.5" />}
-                position="right"
-              />
-            </a>
-          </div>
+      {/* ── Foreground Content Layer (pointer-events-none allows full desktop canvas interactivity) ── */}
+      <div className="relative z-10 max-w-6xl mx-auto px-5 sm:px-8 w-full pointer-events-none">
+        {/* Mobile / Tablet (< 1024px): Instant Pop-Out Avatar Profile Card */}
+        <div className="pointer-events-auto">
+          <ProfileCardMobile />
         </div>
 
-        {/* ─── Right Column: Portrait Showcase with CardSpotlight ─────────────── */}
-        <div className="flex-shrink-0 relative flex justify-center items-center">
-          {/* Ambient glow – sits completely outside the card */}
-          <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-purple/30 via-indigo-500/20 to-blue-500/30 opacity-50 blur-3xl pointer-events-none transition duration-500 hover:opacity-75" />
+        <div className="max-w-2xl text-left pointer-events-auto">
+          {/* Eyebrow & Headline */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1, ease: baseEase }}
+            className="space-y-3"
+          >
+            <p className="text-xs sm:text-sm font-semibold tracking-wide text-[#1D4ED8] inline-block">
+              {heroData.name}
+            </p>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight font-heading leading-tight bg-gradient-to-r from-[#000000] to-[#525250] bg-clip-text text-transparent [text-wrap:balance]">
+              {heroData.headline}
+            </h1>
+          </motion.div>
 
-          {/* Outer wrapper: gradient border ring */}
-          <div className="relative p-[2px] rounded-3xl bg-gradient-to-b from-white/20 via-purple/25 to-blue-500/15 shadow-2xl">
-            <CardSpotlight
-              radius={320}
-              color="rgba(140, 90, 255, 0.30)"
-              className="
-                w-52 h-60
-                sm:w-64 sm:h-72
-                md:w-72 md:h-80
-                lg:w-80 lg:h-[390px]
-                xl:w-[450px] xl:h-[500px]
-                rounded-[22px]
-                bg-black-200/90
-                border border-white/10
-                overflow-hidden
-                relative
-              "
+          {/* Bio Description */}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: baseEase }}
+            className="text-base sm:text-lg text-[#525250] leading-relaxed mt-5 mb-8 max-w-xl [text-wrap:pretty]"
+          >
+            {heroData.description}
+          </motion.p>
+
+          {/* Action Links */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3, ease: baseEase }}
+            className="flex flex-wrap items-center gap-3.5 sm:gap-4 w-full sm:w-auto"
+          >
+            <a
+              href={heroData.primaryAction.link}
+              onClick={(e) => {
+                e.preventDefault();
+                const el = document.getElementById("project");
+                if (el) {
+                  el.scrollIntoView({ behavior: "smooth" });
+                  window.history.replaceState(null, "", "#project");
+                }
+              }}
+              className="btn-primary-blue gap-2"
             >
-              {/* Portrait image – Next.js optimized with priority for instant LCP */}
-              <Image
-                src="/profile.png"
-                alt="Jhon – Web Developer Portrait"
-                fill
-                priority
-                sizes="(max-width: 640px) 208px, (max-width: 768px) 256px, (max-width: 1024px) 320px, 450px"
-                className="object-cover scale-[150%] object-top"
-              />
+              <span>{heroData.primaryAction.label}</span>
+              <ArrowRight size={14} weight="bold" />
+            </a>
 
-              {/* Bottom gradient fade overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black-100/70 via-transparent to-transparent pointer-events-none" />
-            </CardSpotlight>
-          </div>
+            <a
+              href={heroData.secondaryAction.link}
+              onClick={(e) => {
+                e.preventDefault();
+                const el = document.getElementById("contact");
+                if (el) {
+                  el.scrollIntoView({ behavior: "smooth" });
+                  window.history.replaceState(null, "", "#contact");
+                }
+              }}
+              className="btn-secondary-light"
+            >
+              {heroData.secondaryAction.label}
+            </a>
+          </motion.div>
         </div>
       </div>
     </section>

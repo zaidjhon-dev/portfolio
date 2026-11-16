@@ -1,36 +1,38 @@
-import { navItems } from "@/data";
-
+import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import Grid from "@/components/Grid";
+import About from "@/components/About";
+import FeaturedProject from "@/components/FeaturedProject";
+import AiUse from "@/components/AiUse";
+import Background from "@/components/Background";
 import Footer from "@/components/Footer";
-import Experience from "@/components/Experience";
-import RecentProjects from "@/components/RecentProjects";
-import { FloatingNav } from "@/components/ui/FloatingNavbar";
 import BackToTop from "@/components/ui/BackToTop";
 
-export const revalidate = 3600; // Cache & revalidate hourly for static performance
+export const revalidate = 3600;
 
-const Home = () => {
+export default function Home() {
   return (
-    <main className="relative bg-black-100 flex flex-col items-center min-h-screen mx-auto overflow-x-clip">
-      {/* Floating navigation */}
-      <FloatingNav navItems={navItems} />
+    <div className="relative bg-[#F8F8F6] text-[#0D0D0D] min-h-screen flex flex-col selection:bg-[#1D4ED8]/15 selection:text-[#1D4ED8] w-full max-w-full">
+      {/* Subtle tactile warm paper noise grain texture overlay per redesign skill */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-30 opacity-[0.025] mix-blend-multiply bg-repeat"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+        }}
+      />
 
-      {/* Back-to-top arrow */}
+      <Navbar />
+
+      <main id="main-content" className="flex-1 w-full">
+        <Hero />
+        <About />
+        <FeaturedProject />
+        <AiUse />
+        <Background />
+      </main>
+
+      <Footer />
       <BackToTop />
-
-      {/* Full-width Hero section */}
-      <Hero />
-
-      {/* Main contained sections */}
-      <div className="max-w-7xl w-full sm:px-10 px-5">
-        <Grid />
-        <RecentProjects />
-        <Experience />
-        <Footer />
-      </div>
-    </main>
+    </div>
   );
-};
-
-export default Home;
+}

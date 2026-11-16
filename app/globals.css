@@ -4,65 +4,88 @@
 
 @layer base {
   :root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    --page: 40 10% 97%;
+    /* #F8F8F6 - Alabaster Warm White */
+    --surface: 0 0% 100%;
+    /* #FFFFFF - Pure White */
+    --surface-raised: 40 6% 94%;
+    /* #F2F2EF - Warm Paper Tint */
+    --border: 40 5% 89%;
+    /* #E5E5E2 - Subtle Warm Stone Line */
+    --border-hover: 40 4% 81%;
+    /* #D1D1CD */
+    --text: 0 0% 5.1%;
+    /* #0D0D0D - High-contrast Obsidian */
+    --text-muted: 40 2% 32%;
+    /* #525250 - Slate Stone (5.8:1 contrast) */
+    --text-subtle: 40 2% 45%;
+    /* #737370 - Subdued Gray (4.6:1 contrast) */
+    --accent: 224 76% 48%;
+    /* #1D4ED8 - Cobalt / International Blue */
+    --accent-foreground: 0 0% 100%;
+    /* #FFFFFF */
 
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --background: 40 10% 97%;
+    --foreground: 0 0% 5.1%;
 
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 5.1%;
 
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
+    --popover: 40 6% 94%;
+    --popover-foreground: 0 0% 5.1%;
 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --primary: 224 76% 48%;
+    --primary-foreground: 0 0% 100%;
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --secondary: 40 6% 94%;
+    --secondary-foreground: 0 0% 5.1%;
 
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --muted: 40 6% 94%;
+    --muted-foreground: 40 2% 32%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --input: 40 5% 89%;
+    --ring: 224 76% 48%;
 
-    --radius: 0.5rem;
+    --radius: 0.625rem;
   }
 
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    --page: 40 10% 97%;
+    --surface: 0 0% 100%;
+    --surface-raised: 40 6% 94%;
+    --border: 40 5% 89%;
+    --text: 0 0% 5.1%;
+    --text-muted: 40 2% 32%;
+    --text-subtle: 40 2% 45%;
+    --accent: 224 76% 48%;
+    --accent-foreground: 0 0% 100%;
 
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --background: 40 10% 97%;
+    --foreground: 0 0% 5.1%;
 
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 5.1%;
 
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
+    --popover: 40 6% 94%;
+    --popover-foreground: 0 0% 5.1%;
 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --primary: 224 76% 48%;
+    --primary-foreground: 0 0% 100%;
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --secondary: 40 6% 94%;
+    --secondary-foreground: 0 0% 5.1%;
 
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --muted: 40 6% 94%;
+    --muted-foreground: 40 2% 32%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --input: 40 5% 89%;
+    --ring: 224 76% 48%;
   }
 }
 
@@ -72,26 +95,25 @@
   }
 
   html {
-    color-scheme: dark;
-    background-color: #000319;
+    color-scheme: light;
+    background-color: #F8F8F6;
     scroll-behavior: smooth;
     overflow-x: clip;
-    max-width: 100vw;
-    font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont,
+      "Segoe UI", sans-serif;
   }
 
   body {
-    background-color: #000319;
-    color: #ffffff;
+    background-color: #F8F8F6;
+    color: #0D0D0D;
     margin: 0;
     padding: 0;
-    overflow-x: clip;
-    max-width: 100vw;
-    font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    min-height: 100vh;
+    font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont,
+      "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    @apply bg-black-100 text-white;
   }
 
   h1,
@@ -100,30 +122,25 @@
   h4,
   h5,
   h6 {
-    font-family: var(--font-space-grotesk), sans-serif;
     letter-spacing: -0.025em;
   }
 
-  /* Keep section headings clear of the fixed navbar while Home remains at 0. */
+  /* Keep section headings clear of the floating navbar */
   #home {
     scroll-margin-top: 0px;
   }
 
   #about,
-  #projects,
-  #work,
+  #project,
+  #background,
   #contact {
     scroll-margin-top: 6rem;
   }
 
   @media (min-width: 640px) {
-    #home {
-      scroll-margin-top: 0px;
-    }
-
     #about,
-    #projects,
-    #work,
+    #project,
+    #background,
     #contact {
       scroll-margin-top: 7rem;
     }
@@ -144,11 +161,27 @@
       scroll-behavior: auto !important;
     }
   }
-
-} /* end @layer base */
+}
 
 @layer utilities {
   .heading {
-    @apply font-heading font-bold text-3xl sm:text-4xl md:text-5xl text-center tracking-tight leading-tight;
+    @apply font-sans font-bold text-2xl sm:text-3xl md:text-4xl tracking-tight leading-tight text-[#0D0D0D];
   }
-}
+
+  /* ── Tactile Blue CTA Button (Vercel / Linear Style with Top Bevel & Ambient Glow) ── */
+  .btn-primary-blue {
+    @apply relative inline-flex items-center justify-center font-semibold text-sm text-white rounded-lg sm:rounded-xl px-5 py-3 transition-all duration-200 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D4ED8] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F8F8F6] cursor-pointer select-none;
+    background: linear-gradient(180deg, #2b66f5 0%, #1d4ed8 55%, #1842be 100%);
+    border: 1px solid rgba(29, 78, 216, 0.85);
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.35), 0 4px 14px 0 rgba(29, 78, 216, 0.32);
+  }
+  .btn-primary-blue:hover {
+    background: linear-gradient(180deg, #3b74f8 0%, #2053e0 55%, #1a48c7 100%);
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.45), 0 6px 20px 0 rgba(29, 78, 216, 0.45);
+  }
+
+  /* ── Secondary Editorial Button (Crisp White with Warm Border) ── */
+  .btn-secondary-light {
+    @apply relative inline-flex items-center justify-center font-medium text-sm text-[#0D0D0D] bg-white border border-[#E5E5E2] rounded-lg sm:rounded-xl px-5 py-3 shadow-sm transition-all duration-200 hover:bg-[#F2F2EF] hover:border-[#D1D1CD] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D4ED8] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F8F8F6] cursor-pointer select-none;
+  }
+}

@@ -6,6 +6,9 @@ const nextConfig = {
   // Compress responses
   compress: true,
 
+  // Do not attempt to download Google fonts during local node build
+  optimizeFonts: false,
+
   // Experimental optimisations
   experimental: {
     // Optimise CSS output
